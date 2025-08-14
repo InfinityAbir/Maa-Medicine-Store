@@ -9,8 +9,11 @@ def medformview2(request):
 
 
 def home(request):
+<<<<<<< HEAD
     if not request.user.is_authenticated:
         return redirect('login')
+=======
+>>>>>>> 840a6ab953452f08603e5f79b0fdbb2fa9ade5bd
     return render(request, 'pharma/index.html')
 
 
@@ -382,4 +385,7 @@ def purchaseformdelete(request, foo):
 
 def purchasetable(request):
     return render(request, 'pharma/purchasetable.html', {"purchase": Purchase.objects.all()})
+<<<<<<< HEAD
 
+=======
+>>>>>>> 840a6ab953452f08603e5f79b0fdbb2fa9ade5bd

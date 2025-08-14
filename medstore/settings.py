@@ -9,7 +9,10 @@ https://docs.djangoproject.com/en/1.11/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
+<<<<<<< HEAD
 AUTH_USER_MODEL = 'accounts.User'
+=======
+>>>>>>> 840a6ab953452f08603e5f79b0fdbb2fa9ade5bd
 
 import os
 
@@ -34,8 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+<<<<<<< HEAD
     'pharma.apps.PharmaConfig',
     'accounts.apps.AccountsConfig',
+=======
+    'pharma.apps.PharmaConfig'
+>>>>>>> 840a6ab953452f08603e5f79b0fdbb2fa9ade5bd
 ]
 
 
@@ -47,7 +54,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',  # ✅ Required
     'django.contrib.messages.middleware.MessageMiddleware',  # ✅ Required
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+<<<<<<< HEAD
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+=======
+>>>>>>> 840a6ab953452f08603e5f79b0fdbb2fa9ade5bd
 ]
 
 
@@ -118,6 +128,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+<<<<<<< HEAD
 
 AUTH_USER_MODEL = 'accounts.User'
 
@@ -125,3 +136,5 @@ AUTH_USER_MODEL = 'accounts.User'
 LOGIN_REDIRECT_URL = '/'   # redirect after login
 LOGOUT_REDIRECT_URL = '/login/' 
 LOGIN_URL = '/login/' 
+=======
+>>>>>>> 840a6ab953452f08603e5f79b0fdbb2fa9ade5bd
