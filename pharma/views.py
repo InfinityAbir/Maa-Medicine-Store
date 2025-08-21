@@ -229,7 +229,9 @@ def medtable(request):
 
 # ---------------- Purchase ----------------
 def purchaseform(request):
-    return render(request, 'pharma/purchase.html', {'add': True})
+    medicines = Medicine.objects.all()
+    return render(request, 'pharma/purchase.html', {'add': True, 'medicines': medicines})
+
 
 def purchaseforminsert(request):
     if request.method == "POST":
@@ -342,7 +344,11 @@ def purchaseformupdate(request, foo):
 
 def purchaseformview(request, foo):
     purchase = Purchase.objects.get(pk=foo)
-    return render(request, 'pharma/purchase.html', {'purchase': purchase})
+    medicines = Medicine.objects.all()   # also send medicines for dropdown
+    return render(request, 'pharma/purchase.html', {
+        'purchase': purchase,
+        'medicines': medicines
+    })
 
 
 def purchaseformdelete(request, foo):

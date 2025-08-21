@@ -8,15 +8,12 @@
 
     <!-- Bootstrap 3 -->
     <link rel="stylesheet" href="{% static 'pharma/css/bootstrap.min.css' %}" />
-    <link
-      rel="stylesheet"
-      href="{% static 'pharma/css/bootstrap-theme.min.css' %}"
-    />
+    <link rel="stylesheet" href="{% static 'pharma/css/bootstrap-theme.min.css' %}" />
 
-    <!-- Custom inline style since you don’t have style.css -->
+    <!-- Custom inline style -->
     <style>
       body {
-        padding-top: 70px; /* Avoid navbar overlap */
+        padding-top: 70px;
         background-color: #f8f9fa;
       }
       .navbar-inverse {
@@ -27,11 +24,6 @@
         border-radius: 12px;
         padding: 30px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      }
-      .jumbotron h2 {
-        margin-bottom: 20px;
-        font-weight: bold;
-        color: #333;
       }
       table {
         background: #fff;
@@ -61,7 +53,6 @@
       .alert {
         border-radius: 8px;
       }
-      /* Footer */
       footer {
         background: #2c3e50;
         color: #ecf0f1;
@@ -78,30 +69,23 @@
       }
     </style>
 
-    <!-- jQuery & Bootstrap 3 JS -->
     <script src="{% static 'pharma/js/jquery.js' %}"></script>
     <script src="{% static 'pharma/js/bootstrap.min.js' %}"></script>
 
-    <title>All Customer Details</title>
+    <title>Add Purchase Details</title>
   </head>
+
   <body>
-    {% if messages %} {% for message in messages %}
-    <div
-      class="alert alert-success alert-dismissible fade in container"
-      role="alert"
-      style="margin-top: 15px"
-    >
-      <button
-        type="button"
-        class="close"
-        data-dismiss="alert"
-        aria-label="Close"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
-      {{ message }}
-    </div>
-    {% endfor %} {% endif %}
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert {% if message.tags == 'error' %}alert-danger{% elif message.tags == 'success' %}alert-success{% else %}alert-info{% endif %} alert-dismissible fade in container" role="alert" style="margin-top: 15px">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
 
     <!-- Navbar -->
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -110,12 +94,7 @@
           <a href="/pharma/" class="navbar-brand">
             <span class="glyphicon glyphicon-home"></span> HOME
           </a>
-          <button
-            type="button"
-            class="navbar-toggle"
-            data-toggle="collapse"
-            data-target="#thisnav"
-          >
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#thisnav">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -124,59 +103,40 @@
 
         <div class="collapse navbar-collapse" id="thisnav">
           <ul class="nav navbar-nav">
-            <!-- Dealer Management (Admins only) -->
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                >Dealer Management <b class="caret"></b
-              ></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dealer Management <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 {% if user.is_authenticated and user.role == "admin" %}
-                <li><a href="/pharma/dealerform/">Add Dealer Details</a></li>
+                  <li><a href="/pharma/dealerform/">Add Dealer Details</a></li>
                 {% endif %}
                 <li><a href="/pharma/dealertable/">View Dealer Details</a></li>
               </ul>
             </li>
-
-            <!-- Medicine Management -->
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                >Medicine Management <b class="caret"></b
-              ></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Medicine Management <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="/pharma/medform/">Add Medicine Details</a></li>
                 <li><a href="/pharma/medtable/">View Medicine Details</a></li>
               </ul>
             </li>
-
-            <!-- Employee Management -->
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                >Employee Management <b class="caret"></b
-              ></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Employee Management <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 {% if user.is_authenticated and user.role == "admin" %}
-                <li><a href="/pharma/empform/">Add Employee Details</a></li>
+                  <li><a href="/pharma/empform/">Add Employee Details</a></li>
                 {% endif %}
                 <li><a href="/pharma/emptable/">View Employee Details</a></li>
               </ul>
             </li>
-
-            <!-- Customer Management -->
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                >Customer Management <b class="caret"></b
-              ></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Customer Management <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="/pharma/custform/">Add Customer Details</a></li>
                 <li><a href="/pharma/custtable/">View Customer Details</a></li>
               </ul>
             </li>
-
-            <!-- Purchase Information -->
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                >Purchase Information <b class="caret"></b
-              ></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Purchase Information <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="/pharma/purchaseform/">New Purchase</a></li>
                 <li><a href="/pharma/purchasetable/">View All Purchases</a></li>
@@ -184,13 +144,12 @@
             </li>
           </ul>
 
-          <!-- Right side -->
           <ul class="nav navbar-nav navbar-right">
             {% if user.is_authenticated %}
-            <li><a>Welcome, {{ user.username }}!</a></li>
-            <li><a href="{% url 'logout' %}">Logout</a></li>
+              <li><a>Welcome, {{ user.username }}!</a></li>
+              <li><a href="{% url 'logout' %}">Logout</a></li>
             {% else %}
-            <li><a href="{% url 'login' %}">Login</a></li>
+              <li><a href="{% url 'login' %}">Login</a></li>
             {% endif %}
           </ul>
         </div>
@@ -202,284 +161,160 @@
       <div class="panel panel-default col-md-8 jumcust2">
         <div class="panel-heading">
           <h1 class="padtop5">
-            {% if add %} Add Purchase Details {% else %} Update Purchase Details
-            {% endif %}
+            {% if add %} Add Purchase Details {% else %} Update Purchase Details {% endif %}
           </h1>
         </div>
         <div class="panel-body">
-          {% if messages %} {% for message in messages %}
-          <div
-            class="alert {% if message.tags == 'error' %}alert-danger {% elif message.tags == 'success' %}alert-success {% else %}alert-info {% endif %}"
-            role="alert"
-          >
-            {{ message }}
-          </div>
-          {% endfor %} {% endif %} {% if purchase %}
-          <form
-            action="/pharma/purchaseformupdate/{{ purchase.id }}/"
-            method="post"
-          >
-            {% csrf_token %}
-            <div class="row padtop15">
-              <div class="col-md-3 padtop5">
-                <label for="productName" class="form-control-label"
-                  >Product Name:</label
-                >
+          {% if purchase %}
+            <form action="/pharma/purchaseformupdate/{{ purchase.id }}/" method="post">
+              {% csrf_token %}
+              <div class="row padtop15">
+                <div class="col-md-3 padtop5"><label for="productName">Product Name:</label></div>
+                <div class="form-group col-md-4">
+                  <select name="pname" class="form-control" id="productName" required>
+                    <option value="">-- Select Medicine --</option>
+                    {% for med in medicines %}
+                      <option value="{{ med.mname }}" data-price="{{ med.price }}" {% if purchase and purchase.pname == med.mname %}selected{% endif %}>
+                        {{ med.mname }}
+                      </option>
+                    {% endfor %}
+                  </select>
+                </div>
               </div>
-              <div class="form-group col-md-4">
-                <input
-                  type="text"
-                  name="pname"
-                  class="form-control"
-                  id="productName"
-                  placeholder="Product Name"
-                  value="{{ purchase.pname }}"
-                  required
-                />
+
+              <div class="row padtop15">
+                <div class="col-md-3"><label for="price">Price:</label></div>
+                <div class="col-md-2">
+                  <input type="text" name="price" class="form-control" id="price" placeholder="Price" value="{{ purchase.price }}" readonly required />
+                </div>
               </div>
-            </div>
-            <div class="row padtop15">
-              <div class="col-md-3 padtop5">
-                <label for="firstName" class="form-control-label"
-                  >Customer Name:</label
-                >
+
+              <!-- Customer Info -->
+              <div class="row padtop15">
+                <div class="col-md-3 padtop5"><label for="firstName">Customer Name:</label></div>
+                <div class="form-group col-md-4">
+                  <input type="text" name="fname" class="form-control" id="firstName" placeholder="First Name" value="{{ purchase.fname }}" required />
+                </div>
+                <div class="col-md-4">
+                  <input type="text" name="lname" class="form-control" id="lastName" placeholder="Last Name" value="{{ purchase.lname }}" required />
+                </div>
               </div>
-              <div class="form-group col-md-4">
-                <input
-                  type="text"
-                  name="fname"
-                  class="form-control"
-                  id="firstName"
-                  placeholder="First Name"
-                  value="{{ purchase.fname }}"
-                  required
-                />
+
+              <div class="row padtop5">
+                <div class="col-md-3"><label for="phn_no">Phone Number:</label></div>
+                <div class="col-md-4">
+                  <input type="text" name="pno" class="form-control" id="phn_no" placeholder="Contact Number" value="{{ purchase.phn_no }}" required />
+                </div>
               </div>
-              <div class="col-md-4">
-                <input
-                  type="text"
-                  name="lname"
-                  class="form-control"
-                  id="lastName"
-                  placeholder="Last Name"
-                  value="{{ purchase.lname }}"
-                  required
-                />
+
+              <div class="row padtop15">
+                <div class="col-md-3"><label for="qty">Quantity:</label></div>
+                <div class="col-md-2">
+                  <input type="text" name="qty" class="form-control" id="qty" placeholder="Quantity" value="{{ purchase.qty }}" required />
+                </div>
               </div>
-            </div>
-            <div class="row padtop5">
-              <div class="col-md-3">
-                <label for="phn_no" class="form-control-label padtop5"
-                  >Phone Number:</label
-                >
+
+              <div class="row" id="buttoncustom">
+                <div class="col-md-3"></div>
+                <div class="col-md-2 padtop15">
+                  <button type="submit" class="btn btn-default"><a href="/pharma/">Cancel</a></button>
+                </div>
+                <div class="col-md-2 padtop15">
+                  <button type="submit" class="btn btn-primary">Update Record</button>
+                </div>
+                <div class="col-md-offset-8 padtop15">
+                  <button type="submit" class="delbut btn btn-danger">
+                    <a href="/pharma/purchaseformdelete/{{ purchase.id }}/">Delete Record</a>
+                  </button>
+                </div>
               </div>
-              <div class="col-md-4">
-                <input
-                  type="text"
-                  name="pno"
-                  class="form-control"
-                  id="phn_no"
-                  placeholder="Contact Number"
-                  value="{{ purchase.phn_no }}"
-                  required
-                />
-              </div>
-            </div>
-            <div class="row padtop15">
-              <div class="col-md-3">
-                <label for="price" class="form-control-label padtop5"
-                  >Price:</label
-                >
-              </div>
-              <div class="col-md-2">
-                <input
-                  type="text"
-                  name="price"
-                  class="form-control"
-                  id="price"
-                  placeholder="Price"
-                  value="{{ purchase.price }}"
-                  required
-                />
-              </div>
-            </div>
-            <div class="row padtop15">
-              <div class="col-md-3">
-                <label for="qty" class="form-control-label padtop5"
-                  >Quantity:</label
-                >
-              </div>
-              <div class="col-md-2">
-                <input
-                  type="text"
-                  name="qty"
-                  class="form-control"
-                  id="qty"
-                  placeholder="Quantity"
-                  value="{{ purchase.qty }}"
-                  required
-                />
-              </div>
-            </div>
-            <div class="row" id="buttoncustom">
-              <div class="col-md-3"></div>
-              <div class="col-md-2 padtop15">
-                <button type="submit" class="btn btn-default">
-                  <a href="/pharma/">Cancel</a>
-                </button>
-              </div>
-              <div class="col-md-2 padtop15">
-                <button type="submit" class="btn btn-primary">
-                  {% if add %} Add Record {% else %} Update Record {% endif %}
-                </button>
-              </div>
-              <div class="col-md-offset-8 padtop15">
-                <button type="submit" class="delbut btn btn-danger">
-                  <a href="/pharma/purchaseformdelete/{{ purchase.id }}/"
-                    >Delete Record</a
-                  >
-                </button>
-              </div>
-            </div>
-          </form>
+            </form>
+
           {% else %}
-          <form action="/pharma/purchaseforminsert/" method="post">
-            {% csrf_token %}
-            <div class="row padtop15">
-              <div class="col-md-3 padtop5">
-                <label for="productName" class="form-control-label"
-                  >Product Name:</label
-                >
+            <form action="/pharma/purchaseforminsert/" method="post">
+              {% csrf_token %}
+              <div class="row padtop15">
+                <div class="col-md-3 padtop5"><label for="productName">Product Name:</label></div>
+                <div class="form-group col-md-4">
+                  <select name="pname" class="form-control" id="productName" required>
+                    <option value="">-- Select Medicine --</option>
+                    {% for med in medicines %}
+                      <option value="{{ med.mname }}" data-price="{{ med.price }}">{{ med.mname }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
               </div>
-              <div class="form-group col-md-4">
-                <input
-                  type="text"
-                  name="pname"
-                  class="form-control"
-                  id="productName"
-                  placeholder="Product Name"
-                  value=""
-                  required
-                />
+
+              <div class="row padtop15">
+                <div class="col-md-3"><label for="price">Price:</label></div>
+                <div class="col-md-2">
+                  <input type="text" name="price" class="form-control" id="price" placeholder="Price" readonly required />
+                </div>
               </div>
-            </div>
-            <div class="row padtop15">
-              <div class="col-md-3 padtop5">
-                <label for="firstName" class="form-control-label"
-                  >Customer Name:</label
-                >
+
+              <!-- Customer Info -->
+              <div class="row padtop15">
+                <div class="col-md-3 padtop5"><label for="firstName">Customer Name:</label></div>
+                <div class="form-group col-md-4">
+                  <input type="text" name="fname" class="form-control" id="firstName" placeholder="First Name" required />
+                </div>
+                <div class="col-md-4">
+                  <input type="text" name="lname" class="form-control" id="lastName" placeholder="Last Name" required />
+                </div>
               </div>
-              <div class="form-group col-md-4">
-                <input
-                  type="text"
-                  name="fname"
-                  class="form-control"
-                  id="firstName"
-                  placeholder="First Name"
-                  value=""
-                  required
-                />
+
+              <div class="row padtop5">
+                <div class="col-md-3"><label for="phn_no">Phone Number:</label></div>
+                <div class="col-md-4">
+                  <input type="text" name="pno" class="form-control" id="phn_no" placeholder="Contact Number" required />
+                </div>
               </div>
-              <div class="col-md-4">
-                <input
-                  type="text"
-                  name="lname"
-                  class="form-control"
-                  id="lastName"
-                  placeholder="Last Name"
-                  required
-                />
+
+              <div class="row padtop15">
+                <div class="col-md-3"><label for="qty">Quantity:</label></div>
+                <div class="col-md-2">
+                  <input type="text" name="qty" class="form-control" id="qty" placeholder="Quantity" required />
+                </div>
               </div>
-            </div>
-            <div class="row padtop5">
-              <div class="col-md-3">
-                <label for="phn_no" class="form-control-label padtop5"
-                  >Phone Number:</label
-                >
+
+              <div class="row" id="buttoncustom">
+                <div class="col-md-3"></div>
+                <div class="col-md-2 padtop15">
+                  <button type="submit" class="btn btn-default"><a href="/pharma/">Cancel</a></button>
+                </div>
+                <div class="col-md-2 padtop15">
+                  <button type="submit" class="btn btn-primary">Add Record</button>
+                </div>
               </div>
-              <div class="col-md-4">
-                <input
-                  type="text"
-                  name="pno"
-                  class="form-control"
-                  id="phn_no"
-                  placeholder="Contact Number"
-                  required
-                />
-              </div>
-            </div>
-            <div class="row padtop15">
-              <div class="col-md-3">
-                <label for="price" class="form-control-label padtop5"
-                  >Price:</label
-                >
-              </div>
-              <div class="col-md-2">
-                <input
-                  type="text"
-                  name="price"
-                  class="form-control"
-                  id="price"
-                  placeholder="Price"
-                  required
-                />
-              </div>
-            </div>
-            <div class="row padtop15">
-              <div class="col-md-3">
-                <label for="qty" class="form-control-label padtop5"
-                  >Quantity:</label
-                >
-              </div>
-              <div class="col-md-2">
-                <input
-                  type="text"
-                  name="qty"
-                  class="form-control"
-                  id="qty"
-                  placeholder="Quantity"
-                  required
-                />
-              </div>
-            </div>
-            <div class="row" id="buttoncustom">
-              <div class="col-md-3"></div>
-              <div class="col-md-2 padtop15">
-                <button type="submit" class="btn btn-default">
-                  <a href="/pharma/">Cancel</a>
-                </button>
-              </div>
-              <div class="col-md-2 padtop15">
-                <button type="submit" class="btn btn-primary">
-                  {% if add %} Add Record {% else %} Update Record {% endif %}
-                </button>
-              </div>
-            </div>
-          </form>
+            </form>
           {% endif %}
         </div>
       </div>
     </div>
+
     <footer id="contact" class="container-fluid text-center">
       <div class="row">
         <div class="left-footer col-lg-6">
           <span class="footer-text">
             <strong>Do you have any queries? Contact us via </strong>
-            <a
-              href="mailto:abirha3896@gmail.com"
-              style="color: #0057b5; text-decoration: underline"
-              ><strong>Email</strong></a
-            >, or
-            <a
-              href="https://wa.me/8801701554707"
-              target="_blank"
-              style="color: #25d366; text-decoration: underline"
-            >
-              <strong>WhatsApp us</strong> </a
-            >.
+            <a href="mailto:abirha3896@gmail.com" style="color: #0057b5; text-decoration: underline"><strong>Email</strong></a>, or
+            <a href="https://wa.me/8801701554707" target="_blank" style="color: #25d366; text-decoration: underline"><strong>WhatsApp us</strong></a>.
           </span>
         </div>
       </div>
     </footer>
+
+    <!-- JS for auto-fill price -->
+    <script>
+      $(document).ready(function() {
+        $('#productName').on('change', function() {
+          var price = $(this).find(':selected').data('price');
+          $('#price').val(price ? price : '');
+        });
+
+        // Trigger change on load for update form
+        $('#productName').trigger('change');
+      });
+    </script>
   </body>
 </html>
