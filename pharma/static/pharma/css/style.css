@@ -1,0 +1,83 @@
+/* =====================
+   Global Styles
+===================== */
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #fdfdfd;
+  color: #2c3e50;
+  line-height: 1.6;
+  padding-top: 70px; /* Fix navbar overlap */
+}
+
+.navbar {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/* =====================
+   Panel / Card Styling
+===================== */
+.panel {
+  margin-top: 40px;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+}
+
+.panel-heading {
+  background: linear-gradient(135deg, #3498db, #2ecc71);
+  color: white !important;
+  border-radius: 12px 12px 0 0;
+}
+
+.panel-heading h1 {
+  margin: 0;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+/* =====================
+   Buttons
+===================== */
+.btn-primary {
+  background-color: #3498db;
+  border: none;
+  transition: 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #1abc9c;
+  transform: scale(1.05);
+}
+
+.btn-danger:hover {
+  transform: scale(1.05);
+}
+
+/* =====================
+   Footer
+===================== */
+footer {
+  background: #2c3e50;
+  color: #ecf0f1;
+  padding: 25px 15px;
+  margin-top: 40px;
+}
+
+footer a {
+  color: #1abc9c;
+  transition: 0.3s;
+}
+
+footer a:hover {
+  color: #16a085;
+  text-decoration: none;
+}
+
+/* =====================
+   Responsive Fixes
+===================== */
+@media (max-width: 768px) {
+  .panel-heading h1 {
+    font-size: 20px;
+  }
+}

@@ -1,0 +1,174 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Register - Medicine Store</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'pharma/css/bootstrap.min.css' %}" />
+    <link
+      rel="stylesheet"
+      href="{% static 'pharma/css/bootstrap-theme.min.css' %}"
+    />
+    <link rel="stylesheet" href="{% static 'pharma/css/style.css' %}" />
+    <link
+      rel="shortcut icon"
+      href="{% static 'pharma/css/images/favicon2.ico' %}"
+    />
+    <script
+      type="text/javascript"
+      src="{% static 'pharma/js/jquery.js' %}"
+    ></script>
+    <script
+      type="text/javascript"
+      src="{% static 'pharma/js/bootstrap.min.js' %}"
+    ></script>
+
+    <!-- Scrolling text CSS -->
+    <style>
+      .top-scroll {
+        background: #fd0d0d;
+        color: white;
+        padding: 8px 0;
+        overflow: hidden;
+        font-weight: bold;
+        text-align: center;
+      }
+      .top-scroll .marquee {
+        display: inline-block;
+        white-space: nowrap;
+        animation: slide-rtl 20s linear infinite;
+        padding-left: 100%;
+      }
+      @keyframes slide-rtl {
+        0% {
+          transform: translateX(0%);
+        }
+        100% {
+          transform: translateX(-100%);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Scrolling text bar -->
+    <div
+      class="top-scroll"
+      dir="rtl"
+      style="position: fixed; top: 0; left: 0; width: 100%; z-index: 1051"
+    >
+      <div class="marquee">
+        💊 "Welcome to <strong>Medicine Store</strong> — Your Trusted Partner
+        for Quality Medicines & Health Care Solutions" 💊
+      </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav
+      class="navbar bg-dark border-bottom border-body navbar-inverse navbar-fixed-top"
+      data-bs-theme="dark"
+      style="margin-top: 35px"
+    >
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a href="/pharma/" class="navbar-brand">
+            <span class="glyphicon glyphicon glyphicon-home"></span>&nbsp;HOME
+          </a>
+          <button
+            type="button"
+            class="navbar-toggle"
+            data-toggle="collapse"
+            data-target="#thisnav"
+          >
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="collapse navbar-collapse" id="thisnav">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="{% url 'login' %}">Login</a></li>
+            <li class="active"><a href="{% url 'register' %}">Register</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Space so content doesn't hide under fixed navbar -->
+    <div style="margin-top: 120px"></div>
+
+    <!-- Registration Form -->
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="panel panel-default">
+            <div class="panel-heading text-center">
+              <h3>Create an Account</h3>
+            </div>
+            <div class="panel-body">
+              {% if messages %} {% for message in messages %}
+              <div
+                class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}"
+              >
+                {{ message }}
+              </div>
+              {% endfor %} {% endif %}
+
+              <form method="post">
+                {% csrf_token %} {% for field in form %}
+                <div class="form-group">
+                  <label for="{{ field.id_for_label }}"
+                    >{{ field.label }}</label
+                  >
+                  {{ field }} {% if field.errors %}
+                  <small class="text-danger"
+                    >{{ field.errors|striptags }}</small
+                  >
+                  {% endif %}
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-success btn-block">
+                  Register
+                </button>
+              </form>
+
+              <hr />
+              <p class="text-center">
+                Already have an account?
+                <a href="{% url 'login' %}">Login here</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer
+      id="contact"
+      class="container-fluid text-center"
+      style="margin-top: 50px"
+    >
+      <div class="row">
+        <div class="left-footer col-lg-6">
+          <span class="footer-text">
+            <strong>Do you have any queries? Contact us via </strong>
+            <a
+              href="mailto:abirha3896@gmail.com"
+              style="color: #0057b5; text-decoration: underline"
+              ><strong>Email</strong></a
+            >, or
+            <a
+              href="https://wa.me/8801701554707"
+              target="_blank"
+              style="color: #25d366; text-decoration: underline"
+              ><strong>WhatsApp us</strong></a
+            >
+          </span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
