@@ -370,5 +370,6 @@ def purchaseformdelete(request, foo):
 
 
 def purchasetable(request):
-    return render(request, 'pharma/purchasetable.html', {"purchase": Purchase.objects.all()})
-
+    # Get all purchases ordered by ID descending (newest first)
+    purchase = Purchase.objects.all().order_by('-id')
+    return render(request, 'pharma/purchasetable.html', {"purchase": purchase})

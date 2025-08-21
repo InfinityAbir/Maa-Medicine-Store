@@ -213,7 +213,13 @@
               </tr>
               {% for foo in cust %}
               <tr>
-                <td>{{ foo.id }}</td>
+                <td class="idlink">
+                  {% if user.is_authenticated and user.role == "admin" %}
+                    <a href="{% url 'custformview' foo.id %}">{{ foo.id }}</a>
+                  {% else %}
+                    <a href="javascript:void(0);" onclick="alert('This action is allowed only for admin');">{{ foo.id }}</a>
+                  {% endif %}
+                </td>
                 <td>{{ foo.fname }}</td>
                 <td>{{ foo.lname }}</td>
                 <td>{{ foo.address }}</td>
@@ -223,27 +229,22 @@
               {% endfor %}
             </table>
           </div>
-        </div>
+        <footer><h3>Click on a Dealer ID to Update or Delete the record.</h3></footer>
       </div>
     </div>
-
+  </duv>
     <footer id="contact" class="container-fluid text-center">
       <div class="row">
-        <div class="col-lg-12">
-          <span class="footer-text">
-            <strong>Do you have any queries? Contact us via </strong>
-            <a href="mailto:abirha3896@gmail.com" style="color: #0057b5"
-              >Email</a
-            >, or
-            <a
-              href="https://wa.me/8801701554707"
-              target="_blank"
-              style="color: #25d366"
-            >
-              WhatsApp </a
-            >.
-          </span>
-        </div>
+          <div class="left-footer col-lg-6">
+            <span class="footer-text">
+              <strong>Do you have any queries? Contact us via </strong>
+              <a href="mailto:abirha3896@gmail.com" style="color: #0057b5; text-decoration: underline;"><strong>Email</strong></a>, 
+              or 
+              <a href="https://wa.me/8801701554707" target="_blank" style="color: #25D366; text-decoration: underline;">
+                <strong>WhatsApp us</strong>
+              </a>.
+            </span>
+          </div>
       </div>
     </footer>
   </body>

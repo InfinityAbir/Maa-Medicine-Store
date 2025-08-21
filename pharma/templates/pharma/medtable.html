@@ -213,27 +213,26 @@
                         <th>Stock</th>
                         <th>Description</th>
                     </tr>
-                    {% for foo in med %}
-                        <tr>
-                            <td>{{ foo.m_id }}</td>
-                            <td>{{ foo.mname }}</td>
-                            <td>{{ foo.dname }}</td>
-                            <td>{{ foo.price }}</td>
-                            <td>
-                                {% if foo.stock < 10 %}
-                                    <span style="color: red; font-weight: bold;">
-                                        {{ foo.stock }} (Low Stock!)
-                                    </span>
-                                {% else %}
-                                    {{ foo.stock }}
-                                {% endif %}
-                            </td>
-                            <td>{{ foo.desc }}</td>
-                        </tr>
-                    {% endfor %}
-                </table>
-            </div>
+                   {% for foo in med %}
+                    <tr>
+                        <td class="idlink">
+                        {% if user.is_authenticated and user.role == "admin" %}  
+                          <a href="{% url 'medformview' foo.id %}">{{ foo.id }}</a>
+                        {% else %}
+                          <a href="javascript:void(0);" onclick="alert('This action is allowed only for admin');">{{ foo.id }}</a>
+                        {% endif %}
+                        </td>
+                        <td>{{ foo.mname }}</td>
+                        <td>{{ foo.dname }}</td>
+                        <td>{{ foo.price }}</td>
+                        <td>{{ foo.stock }}</td>
+                        <td>{{ foo.desc }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
         </div>
+        <footer><h3>Click on a Medicine ID to Update or Delete the record.</h3></footer>
+    </div>
     </div>
     <footer id="contact" class="container-fluid text-center">
           <div class="row">

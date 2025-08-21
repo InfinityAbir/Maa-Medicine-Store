@@ -242,7 +242,19 @@
                 <tbody>
                   {% for foo in purchase %}
                   <tr id="purchase-{{ foo.id }}">
-                    <td>{{ foo.id }}</td>
+                    <td class="idlink">
+                      {% if user.is_authenticated and user.role == "admin" %}
+                      <a href="{% url 'purchaseformview' foo.id %}"
+                        >{{ foo.id }}</a
+                      >
+                      {% else %}
+                      <a
+                        href="javascript:void(0);"
+                        onclick="alert('This action is allowed only for admin');"
+                        >{{ foo.id }}</a
+                      >
+                      {% endif %}
+                    </td>
                     <td>{{ foo.pname }}</td>
                     <td>{{ foo.fname }}</td>
                     <td>{{ foo.lname }}</td>
@@ -263,6 +275,9 @@
                 </tbody>
               </table>
             </div>
+            <footer>
+              <h3>Click on a Purchase ID to Update or Delete the record.</h3>
+            </footer>
           </div>
         </div>
 

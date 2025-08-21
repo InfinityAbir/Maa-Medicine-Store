@@ -217,19 +217,26 @@
               <th>Salary</th>
             </tr>
             {% for foo in emp %}
-            <tr>
-              <td>{{ foo.id }}</td>
-              <td>{{ foo.fname }}</td>
-              <td>{{ foo.lname }}</td>
-              <td>{{ foo.address }}</td>
-              <td>{{ foo.phn_no }}</td>
-              <td>{{ foo.email }}</td>
-              <td>{{ foo.sal }}</td>
-            </tr>
-            {% endfor %}
-          </table>
+                    <tr>
+                        <td class="idlink">
+                        {% if user.is_authenticated and user.role == "admin" %}
+                          <a href="{% url 'empformview' foo.id %}">{{ foo.id }}</a>
+                        {% else %}
+                          <a href="javascript:void(0);" onclick="alert('This action is allowed only for admin');">{{ foo.id }}</a>
+                        {% endif %}
+                        </td>
+                        <td>{{ foo.fname }}</td>
+                        <td>{{ foo.lname }}</td>
+                        <td>{{ foo.address }}</td>
+                        <td>{{ foo.phn_no }}</td>
+                        <td>{{ foo.email }}</td>
+                        <td>{{ foo.sal }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
         </div>
-      </div>
+        <footer><h3>Click on an Employee ID to Update or Delete the record.</h3></footer>
+    </div>
     </div>
     <footer id="contact" class="container-fluid text-center">
       <div class="row">
