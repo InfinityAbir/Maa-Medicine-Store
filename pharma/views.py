@@ -168,16 +168,17 @@ def custtable(request):
 
 # ---------------- Medicine ----------------
 def medform(request):
-    return render(request, 'pharma/med.html', {'add': True})
-
+    # Get all dealers for dropdown
+    dealers = Dealer.objects.all()
+    return render(request, 'pharma/med.html', {'add': True, 'dealers': dealers})
 def medforminsert(request):
     try:
         dealer_name = request.POST['dname']
 
-        # Check if dealer exists using the correct field name
+        # Check if dealer exists
         if not Dealer.objects.filter(dname=dealer_name).exists():
             messages.error(request, "🚫 Dealer not found. Please add dealer first.")
-            return redirect('medtable')  # Or redirect to dealer add page
+            return redirect('medtable')
 
         # Add medicine if dealer exists
         med = Medicine(
@@ -196,7 +197,6 @@ def medforminsert(request):
 
     return redirect('medtable')
 
-
 def medformupdate(request, foo):
     try:
         med = Medicine.objects.get(pk=foo)
@@ -212,20 +212,18 @@ def medformupdate(request, foo):
         return render(request, "pharma/new.html")
     return redirect('medtable')
 
-
 def medformview(request, foo):
-    return render(request, 'pharma/med.html', {'med': Medicine.objects.get(pk=foo)})
-
+    med = Medicine.objects.get(pk=foo)
+    dealers = Dealer.objects.all()  # Pass dealers for dropdown
+    return render(request, 'pharma/med.html', {'med': med, 'dealers': dealers})
 
 def medformdelete(request, foo):
     Medicine.objects.get(pk=foo).delete()
     messages.success(request, "✅ Medicine deleted.")
     return redirect('medtable')
 
-
 def medtable(request):
     return render(request, 'pharma/medtable.html', {"med": Medicine.objects.all()})
-
 
 # ---------------- Purchase ----------------
 def purchaseform(request):

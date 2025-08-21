@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
+       <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- Bootstrap 3 -->
@@ -61,7 +61,7 @@
       .alert {
         border-radius: 8px;
       }
-     /* Footer */
+      /* Footer */
       footer {
         background: #2c3e50;
         color: #ecf0f1;
@@ -199,275 +199,106 @@
 
     <div class="container">
       <div class="col-md-2"></div>
-      <div class="panel panel-default col-md-8 jumcust2">
+      <div class="panel panel-default col-md-8">
         <div class="panel-heading">
-          <h1 class="padtop5">
-            {% if add %} Add Medicine Details {% else %} Update Medicine Details
-            {% endif %}
-          </h1>
+          <h1 class="padtop5">{% if add %}Add Medicine Details{% else %}Update Medicine Details{% endif %}</h1>
         </div>
         <div class="panel-body">
           {% if med %}
-          <form action="/pharma/medformupdate/{{ med.id }}/" method="post">
-            {% csrf_token %}
-            <div class="row padtop15">
-              <div class="col-md-3 padtop5">
-                <label for="m_id" class="form-control-label"
-                  >Medicine Code:</label
-                >
+            <!-- Update Medicine Form -->
+            <form action="/pharma/medformupdate/{{ med.id }}/" method="post">
+              {% csrf_token %}
+              <div class="row padtop15">
+                <div class="col-md-3"><label for="m_id">Medicine Code:</label></div>
+                <div class="col-md-4"><input type="text" class="form-control" name="mid" id="m_id" value="{{ med.m_id }}" /></div>
               </div>
-              <div class="col-md-4">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="m_id"
-                  placeholder="Code"
-                  name="mid"
-                  value="{{ med.m_id }}"
-                />
+              <div class="row padtop5">
+                <div class="col-md-3"><label for="mname">Medicine Name:</label></div>
+                <div class="col-md-4"><input type="text" class="form-control" name="mname" id="mname" value="{{ med.mname }}" required /></div>
               </div>
-            </div>
-            <div class="row padtop5">
-              <div class="col-md-3 padtop5">
-                <label for="mname" class="form-control-label"
-                  >Medicine Name:</label
-                >
+              <div class="row padtop5">
+                <div class="col-md-3"><label for="dname">Dealer Name:</label></div>
+                <div class="col-md-8">
+                  <select name="dname" class="form-control" id="dname" required>
+                    <option value="">-- Select Dealer --</option>
+                    {% for dealer in dealers %}
+                      <option value="{{ dealer.dname }}" {% if med.dname == dealer.dname %}selected{% endif %}>{{ dealer.dname }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
               </div>
-              <div class="form-group col-md-4">
-                <input
-                  type="text"
-                  name="mname"
-                  class="form-control"
-                  id="mname"
-                  placeholder="Medicine Name"
-                  value="{{ med.mname }}"
-                  required
-                />
+              <div class="row padtop5">
+                <div class="col-md-3"><label for="price">Price:</label></div>
+                <div class="col-md-2"><input type="text" class="form-control" name="price" id="price" value="{{ med.price }}" required /></div>
               </div>
-            </div>
-            <div class="row padtop5">
-              <div class="col-md-3 padtop5">
-                <label for="dname" class="form-control-label"
-                  >Dealer Name:</label
-                >
+              <div class="row padtop15">
+                <div class="col-md-3"><label for="stock">Stock:</label></div>
+                <div class="col-md-2"><input type="text" class="form-control" name="stock" id="stock" value="{{ med.stock }}" /></div>
               </div>
-              <div class="form-group col-md-8">
-                <input
-                  type="text"
-                  name="dname"
-                  class="form-control"
-                  id="dname"
-                  placeholder="Dealer Name"
-                  value="{{ med.dname }}"
-                />
+              <div class="row padtop15">
+                <div class="col-md-3"><label for="desc">Description:</label></div>
+                <div class="col-md-4"><input type="text" class="form-control" name="desc" id="desc" value="{{ med.desc }}" /></div>
               </div>
-            </div>
-            <div class="row padtop5">
-              <div class="col-md-3">
-                <label for="price" class="form-control-label padtop5"
-                  >Price:</label
-                >
+              <div class="row padtop15">
+                <div class="col-md-2"><button type="submit" class="btn btn-primary">Update Record</button></div>
+                <div class="col-md-2"><a href="/pharma/medformdelete/{{ med.id }}/" class="btn btn-danger">Delete Record</a></div>
+                <div class="col-md-2"><a href="/pharma/" class="btn btn-default">Cancel</a></div>
               </div>
-              <div class="col-md-2">
-                <input
-                  type="text"
-                  name="price"
-                  class="form-control"
-                  id="price"
-                  placeholder="Price"
-                  value="{{ med.price }}"
-                  required
-                />
-              </div>
-            </div>
-            <div class="row padtop15">
-              <div class="col-md-3">
-                <label for="stock" class="form-control-label padtop5"
-                  >Stock:</label
-                >
-              </div>
-              <div class="col-md-2">
-                <input
-                  type="text"
-                  name="stock"
-                  class="form-control"
-                  id="stock"
-                  placeholder="Stock"
-                  value="{{ med.stock }}"
-                />
-              </div>
-            </div>
-            <div class="row padtop15">
-              <div class="col-md-3">
-                <label for="desc" class="form-control-label padtop5"
-                  >Description:</label
-                >
-              </div>
-              <div class="col-md-4">
-                <input
-                  type="text"
-                  name="desc"
-                  class="form-control"
-                  id="desc"
-                  placeholder="Description"
-                  value="{{ med.desc }}"
-                />
-              </div>
-            </div>
-            <div class="row" id="buttoncustom">
-              <div class="col-md-3"></div>
-              <div class="col-md-2 padtop15">
-                <button type="submit" class="btn btn-default">
-                  <a href="/pharma/">Cancel</a>
-                </button>
-              </div>
-              <div class="col-md-2 padtop15">
-                <button type="submit" class="btn btn-primary">
-                  {% if add %} Add Record {% else %} Update Record {% endif %}
-                </button>
-              </div>
-              <div class="col-md-offset-8 padtop15">
-                <button type="submit" class="delbut btn btn-danger">
-                  <a href="/pharma/medformdelete/{{ med.id }}/"
-                    >Delete Record</a
-                  >
-                </button>
-              </div>
-            </div>
-          </form>
+            </form>
           {% else %}
-          <form action="/pharma/medforminsert/" method="post">
-            {% csrf_token %}
-            <div class="row">
-              <div class="col-md-3 padtop5">
-                <label for="m_id" class="form-control-label"
-                  >Medicine Code:</label
-                >
+            <!-- Add Medicine Form -->
+            <form action="/pharma/medforminsert/" method="post">
+              {% csrf_token %}
+              <div class="row padtop15">
+                <div class="col-md-3"><label for="m_id">Medicine Code:</label></div>
+                <div class="col-md-4"><input type="text" class="form-control" name="mid" id="m_id" placeholder="Code" /></div>
               </div>
-              <div class="col-md-2">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="m_id"
-                  placeholder="Code"
-                  name="mid"
-                />
+              <div class="row padtop5">
+                <div class="col-md-3"><label for="mname">Medicine Name:</label></div>
+                <div class="col-md-4"><input type="text" class="form-control" name="mname" id="mname" placeholder="Medicine Name" required /></div>
               </div>
-            </div>
-            <div class="row padtop15">
-              <div class="col-md-3 padtop5">
-                <label for="mname" class="form-control-label"
-                  >Medicine Name:</label
-                >
+              <div class="row padtop5">
+                <div class="col-md-3"><label for="dname">Dealer Name:</label></div>
+                <div class="col-md-8">
+                  <select name="dname" class="form-control" id="dname" required>
+                    <option value="">-- Select Dealer --</option>
+                    {% for dealer in dealers %}
+                      <option value="{{ dealer.dname }}">{{ dealer.dname }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
               </div>
-              <div class="form-group col-md-4">
-                <input
-                  type="text"
-                  name="mname"
-                  class="form-control"
-                  id="mname"
-                  placeholder="Medicine Name"
-                  value=""
-                  required
-                />
+              <div class="row padtop5">
+                <div class="col-md-3"><label for="price">Price:</label></div>
+                <div class="col-md-2"><input type="text" class="form-control" name="price" id="price" placeholder="Price" required /></div>
               </div>
-            </div>
-            <div class="row padtop5">
-              <div class="col-md-3 padtop5">
-                <label for="dname" class="form-control-label"
-                  >Dealer Name:</label
-                >
+              <div class="row padtop15">
+                <div class="col-md-3"><label for="stock">Stock:</label></div>
+                <div class="col-md-2"><input type="text" class="form-control" name="stock" id="stock" placeholder="Stock" /></div>
               </div>
-              <div class="form-group col-md-8">
-                <input
-                  type="text"
-                  name="dname"
-                  class="form-control"
-                  id="dname"
-                  placeholder="Dealer Name"
-                  value=""
-                />
+              <div class="row padtop15">
+                <div class="col-md-3"><label for="desc">Description:</label></div>
+                <div class="col-md-4"><input type="text" class="form-control" name="desc" id="desc" placeholder="Description" /></div>
               </div>
-            </div>
-            <div class="row padtop5">
-              <div class="col-md-3">
-                <label for="price" class="form-control-label padtop5"
-                  >Price:</label
-                >
+              <div class="row padtop15">
+                <div class="col-md-2"><button type="submit" class="btn btn-primary">Add Record</button></div>
+                <div class="col-md-2"><a href="/pharma/" class="btn btn-default">Cancel</a></div>
               </div>
-              <div class="col-md-2">
-                <input
-                  type="text"
-                  name="price"
-                  class="form-control"
-                  id="price"
-                  placeholder="Price"
-                  required
-                />
-              </div>
-            </div>
-            <div class="row padtop15">
-              <div class="col-md-3">
-                <label for="stock" class="form-control-label padtop5"
-                  >Stock:</label
-                >
-              </div>
-              <div class="col-md-2">
-                <input
-                  type="text"
-                  name="stock"
-                  class="form-control"
-                  id="stock"
-                  placeholder="Stock"
-                />
-              </div>
-            </div>
-            <div class="row padtop15">
-              <div class="col-md-3">
-                <label for="desc" class="form-control-label padtop5"
-                  >Description:</label
-                >
-              </div>
-              <div class="col-md-4">
-                <input
-                  type="text"
-                  name="desc"
-                  class="form-control"
-                  id="desc"
-                  placeholder="Description"
-                />
-              </div>
-            </div>
-            <div class="row" id="buttoncustom">
-              <div class="col-md-3"></div>
-              <div class="col-md-2 padtop15">
-                <button type="submit" class="btn btn-default">
-                  <a href="/pharma/">Cancel</a>
-                </button>
-              </div>
-              <div class="col-md-2 padtop15">
-                <button type="submit" class="btn btn-primary">
-                  {% if add %} Add Record {% else %} Update Record {% endif %}
-                </button>
-              </div>
-            </div>
-          </form>
+            </form>
           {% endif %}
         </div>
       </div>
     </div>
+
     <footer id="contact" class="container-fluid text-center">
       <div class="row">
-          <div class="left-footer col-lg-6">
-            <span class="footer-text">
-              <strong>Do you have any queries? Contact us via </strong>
-              <a href="mailto:abirha3896@gmail.com" style="color: #0057b5; text-decoration: underline;"><strong>Email</strong></a>, 
-              or 
-              <a href="https://wa.me/8801701554707" target="_blank" style="color: #25D366; text-decoration: underline;">
-                <strong>WhatsApp us</strong>
-              </a>.
-            </span>
-          </div>
+        <div class="left-footer col-lg-6">
+          <span class="footer-text">
+            <strong>Do you have any queries? Contact us via </strong>
+            <a href="mailto:abirha3896@gmail.com" style="color: #0057b5; text-decoration: underline;"><strong>Email</strong></a>, 
+            or 
+            <a href="https://wa.me/8801701554707" target="_blank" style="color: #25D366; text-decoration: underline;"><strong>WhatsApp us</strong></a>.
+          </span>
         </div>
       </div>
     </footer>

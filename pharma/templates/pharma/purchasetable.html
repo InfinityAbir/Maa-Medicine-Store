@@ -3,403 +3,373 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <html lang="en">
-      <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <!-- Bootstrap 3 -->
-        <link
-          rel="stylesheet"
-          href="{% static 'pharma/css/bootstrap.min.css' %}"
-        />
-        <link
-          rel="stylesheet"
-          href="{% static 'pharma/css/bootstrap-theme.min.css' %}"
-        />
+    <!-- Bootstrap 3 -->
+    <link rel="stylesheet" href="{% static 'pharma/css/bootstrap.min.css' %}" />
+    <link
+      rel="stylesheet"
+      href="{% static 'pharma/css/bootstrap-theme.min.css' %}"
+    />
 
-        <!-- Custom inline style since you don’t have style.css -->
-        <style>
-          body {
-            padding-top: 70px; /* Avoid navbar overlap */
-            background-color: #f8f9fa;
-          }
-          .navbar-inverse {
-            border-radius: 0;
-          }
-          .jumbotron.jumcust {
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-          }
-          .jumbotron h2 {
-            margin-bottom: 20px;
-            font-weight: bold;
-            color: #333;
-          }
-          table {
-            background: #fff;
-            border-radius: 8px;
-            overflow: hidden;
-          }
-          table th {
-            background: #343a40;
-            color: #fff;
-            text-align: center;
-          }
-          table td {
-            text-align: center;
-            vertical-align: middle;
-          }
-          .table-hover tbody tr:hover {
-            background-color: #f1f1f1;
-          }
-          .idlink a {
-            color: #007bff;
-            font-weight: bold;
-            text-decoration: none;
-          }
-          .idlink a:hover {
-            text-decoration: underline;
-          }
-          .alert {
-            border-radius: 8px;
-          }
-          /* Footer */
-          footer {
-            background: #2c3e50;
-            color: #ecf0f1;
-            padding: 25px 15px;
-            margin-top: 40px;
-          }
-          footer a {
-            color: #1abc9c;
-            transition: 0.3s;
-          }
-          footer a:hover {
-            color: #16a085;
-            text-decoration: none;
-          }
-        </style>
-
-        <!-- jQuery & Bootstrap 3 JS -->
-        <script src="{% static 'pharma/js/jquery.js' %}"></script>
-        <script src="{% static 'pharma/js/bootstrap.min.js' %}"></script>
-
-        <title>All Purchase Details</title>
-      </head>
-      <body>
-        {% if messages %} {% for message in messages %}
-        <div
-          class="alert alert-success alert-dismissible fade in container"
-          role="alert"
-          style="margin-top: 15px"
-        >
-          <button
-            type="button"
-            class="close"
-            data-dismiss="alert"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-          {{ message }}
-        </div>
-        {% endfor %} {% endif %}
-
-        <!-- Navbar -->
-        <nav class="navbar navbar-inverse navbar-fixed-top">
-          <div class="container-fluid">
-            <div class="navbar-header">
-              <a href="/pharma/" class="navbar-brand">
-                <span class="glyphicon glyphicon-home"></span> HOME
-              </a>
-              <button
-                type="button"
-                class="navbar-toggle"
-                data-toggle="collapse"
-                data-target="#thisnav"
-              >
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-            </div>
-
-            <div class="collapse navbar-collapse" id="thisnav">
-              <ul class="nav navbar-nav">
-                <!-- Dealer Management (Admins only) -->
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                    >Dealer Management <b class="caret"></b
-                  ></a>
-                  <ul class="dropdown-menu">
-                    {% if user.is_authenticated and user.role == "admin" %}
-                    <li>
-                      <a href="/pharma/dealerform/">Add Dealer Details</a>
-                    </li>
-                    {% endif %}
-                    <li>
-                      <a href="/pharma/dealertable/">View Dealer Details</a>
-                    </li>
-                  </ul>
-                </li>
-
-                <!-- Medicine Management -->
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                    >Medicine Management <b class="caret"></b
-                  ></a>
-                  <ul class="dropdown-menu">
-                    <li><a href="/pharma/medform/">Add Medicine Details</a></li>
-                    <li>
-                      <a href="/pharma/medtable/">View Medicine Details</a>
-                    </li>
-                  </ul>
-                </li>
-
-                <!-- Employee Management -->
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                    >Employee Management <b class="caret"></b
-                  ></a>
-                  <ul class="dropdown-menu">
-                    {% if user.is_authenticated and user.role == "admin" %}
-                    <li><a href="/pharma/empform/">Add Employee Details</a></li>
-                    {% endif %}
-                    <li>
-                      <a href="/pharma/emptable/">View Employee Details</a>
-                    </li>
-                  </ul>
-                </li>
-
-                <!-- Customer Management -->
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                    >Customer Management <b class="caret"></b
-                  ></a>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <a href="/pharma/custform/">Add Customer Details</a>
-                    </li>
-                    <li>
-                      <a href="/pharma/custtable/">View Customer Details</a>
-                    </li>
-                  </ul>
-                </li>
-
-                <!-- Purchase Information -->
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                    >Purchase Information <b class="caret"></b
-                  ></a>
-                  <ul class="dropdown-menu">
-                    <li><a href="/pharma/purchaseform/">New Purchase</a></li>
-                    <li>
-                      <a href="/pharma/purchasetable/">View All Purchases</a>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-
-              <!-- Right side -->
-              <ul class="nav navbar-nav navbar-right">
-                {% if user.is_authenticated %}
-                <li><a>Welcome, {{ user.username }}!</a></li>
-                <li><a href="{% url 'logout' %}">Logout</a></li>
-                {% else %}
-                <li><a href="{% url 'login' %}">Login</a></li>
-                {% endif %}
-              </ul>
-            </div>
-          </div>
-        </nav>
-
-        <div class="container-fluid martop7">
-          <div class="jumbotron jumcust">
-            <h2>Purchase Details</h2>
-
-            <div class="row">
-              <div class="col-md-1"></div>
-
-              <table
-                class="table table-bordered table-hover table-striped purchases-table col-md-10"
-              >
-                <thead>
-                  <tr>
-                    <th>Purchase ID</th>
-                    <th>Product Name</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Phone Number</th>
-                    <th class="text-right">Price</th>
-                    <th class="text-right">Quantity</th>
-                    <th class="text-right">Total</th>
-                    <th class="no-print">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for foo in purchase %}
-                  <tr id="purchase-{{ foo.id }}">
-                    <td class="idlink">
-                      {% if user.is_authenticated and user.role == "admin" %}
-                      <a href="{% url 'purchaseformview' foo.id %}"
-                        >{{ foo.id }}</a
-                      >
-                      {% else %}
-                      <a
-                        href="javascript:void(0);"
-                        onclick="alert('This action is allowed only for admin');"
-                        >{{ foo.id }}</a
-                      >
-                      {% endif %}
-                    </td>
-                    <td>{{ foo.pname }}</td>
-                    <td>{{ foo.fname }}</td>
-                    <td>{{ foo.lname }}</td>
-                    <td>{{ foo.phn_no }}</td>
-                    <td class="text-right">{{ foo.price }}</td>
-                    <td class="text-right">{{ foo.qty }}</td>
-                    <td class="text-right">{{ foo.total }}</td>
-                    <td class="no-print">
-                      <button
-                        class="btn btn-primary btn-sm"
-                        onclick="printPurchase('purchase-{{ foo.id }}')"
-                      >
-                        <span class="glyphicon glyphicon-print"></span> Print
-                      </button>
-                    </td>
-                  </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
-            </div>
-            <footer>
-              <h3>Click on a Purchase ID to Update or Delete the record.</h3>
-            </footer>
-          </div>
-        </div>
-
-        <footer id="contact" class="container-fluid text-center">
-          <div class="row">
-            <div class="left-footer col-lg-6">
-              <span class="footer-text">
-                <strong>Do you have any queries? Contact us via </strong>
-                <a
-                  href="mailto:abirha3896@gmail.com"
-                  style="color: #0057b5; text-decoration: underline"
-                  ><strong>Email</strong></a
-                >, or
-                <a
-                  href="https://wa.me/8801701554707"
-                  target="_blank"
-                  style="color: #25d366; text-decoration: underline"
-                >
-                  <strong>WhatsApp us</strong> </a
-                >.
-              </span>
-            </div>
-          </div>
-        </footer>
-        <script>
-          function printPurchase(rowId) {
-            var row = document.getElementById(rowId);
-            var cells = row.getElementsByTagName("td");
-
-            var purchaseData = {
-              id: cells[0].innerText.trim(),
-              pname: cells[1].innerText.trim(),
-              fname: cells[2].innerText.trim(),
-              lname: cells[3].innerText.trim(),
-              phn: cells[4].innerText.trim(),
-              price: cells[5].innerText.trim(),
-              qty: cells[6].innerText.trim(),
-              total: cells[7].innerText.trim(),
-            };
-
-            var receipt = `
-    <html>
-    <head>
-      <title>Purchase Receipt</title>
     <style>
-      body { font-family: Arial, sans-serif; text-align: center; }
-      .receipt { 
-        border: 2px solid #000; 
-        padding: 20px; 
-        border-radius: 10px; 
-        width: 80%; 
-        margin: auto; 
+      body {
+        padding-top: 70px;
+        background-color: #f8f9fa;
       }
-      h1 { margin: 0; font-size: 28px; }
-      h2 { margin: 5px 0 15px 0; font-size: 20px; }
-      table { 
-        width: 95%;   
-        margin: 20px auto;
-        border-collapse: collapse; 
+      .navbar-inverse {
+        border-radius: 0;
       }
-      th, td { 
-        border: 1px solid black; 
-        padding: 8px; 
-        text-align: center; 
+      .jumbotron.jumcust {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       }
-      .footer { margin-top: 30px; font-size: 14px; }
-      .signature { margin-top: 40px; text-align: right; padding-right: 50px; }
+      .jumbotron h2 {
+        margin-bottom: 20px;
+        font-weight: bold;
+        color: #333;
+      }
+      table {
+        background: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+        width: 100%;
+      }
+      table th {
+        background: #343a40;
+        color: #fff;
+        text-align: center;
+      }
+      table td {
+        text-align: center;
+        vertical-align: middle;
+      }
+      .table-hover tbody tr:hover {
+        background-color: #f1f1f1;
+      }
+      .idlink a {
+        color: #007bff;
+        font-weight: bold;
+        text-decoration: none;
+      }
+      .idlink a:hover {
+        text-decoration: underline;
+      }
+      .alert {
+        border-radius: 8px;
+      }
+      footer {
+        background: #2c3e50;
+        color: #ecf0f1;
+        padding: 25px 15px;
+        margin-top: 40px;
+      }
+      footer a {
+        color: #1abc9c;
+        transition: 0.3s;
+      }
+      footer a:hover {
+        color: #16a085;
+        text-decoration: none;
+      }
       @media print {
-        button { display: none; } /* Hide buttons on print */
+        button {
+          display: none;
+        }
+        .no-print {
+          display: none;
+        }
+        body {
+          background-color: #fff;
+        }
       }
     </style>
-    </head>
-    <body>
-      <div class="receipt">
-        <h1>Ma Medicine Store</h1>
-        <h2>Purchase Receipt</h2>
-        <p>Address: Uttara, Dhaka, Bangladesh</p>
-        <p>Phone: +8801701554709 | Email: abirha3896@gmail.com</p>
 
-        <table>
-          <tr>
-            <th>Purchase ID</th>
-            <th>Product Name</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Phone Number</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Total</th>
-          </tr>
-          <tr>
-            <td>${purchaseData.id}</td>
-            <td>${purchaseData.pname}</td>
-            <td>${purchaseData.fname}</td>
-            <td>${purchaseData.lname}</td>
-            <td>${purchaseData.phn}</td>
-            <td>${purchaseData.price}</td>
-            <td>${purchaseData.qty}</td>
-            <td>${purchaseData.total}</td>
-          </tr>
-        </table>
+    <script src="{% static 'pharma/js/jquery.js' %}"></script>
+    <script src="{% static 'pharma/js/bootstrap.min.js' %}"></script>
 
-        <div class="signature">
-          ___________________________<br>
-          Authorized Signature
+    <title>All Purchase Details</title>
+  </head>
+
+  <body>
+    {% if messages %} {% for message in messages %}
+    <div
+      class="alert alert-success alert-dismissible fade in container"
+      role="alert"
+      style="margin-top: 15px"
+    >
+      <button
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+      {{ message }}
+    </div>
+    {% endfor %} {% endif %}
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a href="/pharma/" class="navbar-brand">
+            <span class="glyphicon glyphicon-home"></span> HOME
+          </a>
+          <button
+            type="button"
+            class="navbar-toggle"
+            data-toggle="collapse"
+            data-target="#thisnav"
+          >
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
         </div>
-        <div class="footer">
-          <p>Thank you for purchasing with <b>Ma Medicine Store</b>.</p>
+        <div class="collapse navbar-collapse" id="thisnav">
+          <ul class="nav navbar-nav">
+            <!-- Dealer Management -->
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                >Dealer Management <b class="caret"></b
+              ></a>
+              <ul class="dropdown-menu">
+                {% if user.is_authenticated and user.role == "admin" %}
+                <li><a href="/pharma/dealerform/">Add Dealer Details</a></li>
+                {% endif %}
+                <li><a href="/pharma/dealertable/">View Dealer Details</a></li>
+              </ul>
+            </li>
+            <!-- Medicine Management -->
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                >Medicine Management <b class="caret"></b
+              ></a>
+              <ul class="dropdown-menu">
+                <li><a href="/pharma/medform/">Add Medicine Details</a></li>
+                <li><a href="/pharma/medtable/">View Medicine Details</a></li>
+              </ul>
+            </li>
+            <!-- Employee Management -->
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                >Employee Management <b class="caret"></b
+              ></a>
+              <ul class="dropdown-menu">
+                {% if user.is_authenticated and user.role == "admin" %}
+                <li><a href="/pharma/empform/">Add Employee Details</a></li>
+                {% endif %}
+                <li><a href="/pharma/emptable/">View Employee Details</a></li>
+              </ul>
+            </li>
+            <!-- Customer Management -->
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                >Customer Management <b class="caret"></b
+              ></a>
+              <ul class="dropdown-menu">
+                <li><a href="/pharma/custform/">Add Customer Details</a></li>
+                <li><a href="/pharma/custtable/">View Customer Details</a></li>
+              </ul>
+            </li>
+            <!-- Purchase Information -->
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                >Purchase Information <b class="caret"></b
+              ></a>
+              <ul class="dropdown-menu">
+                <li><a href="/pharma/purchaseform/">New Purchase</a></li>
+                <li><a href="/pharma/purchasetable/">View All Purchases</a></li>
+              </ul>
+            </li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            {% if user.is_authenticated %}
+            <li><a>Welcome, {{ user.username }}!</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+            {% else %}
+            <li><a href="{% url 'login' %}">Login</a></li>
+            {% endif %}
+          </ul>
         </div>
       </div>
-    </body>
-    </html>
-    `;
+    </nav>
 
-            var printWindow = window.open("", "_blank", "width=800,height=600");
-            printWindow.document.open();
-            printWindow.document.write(receipt);
-            printWindow.document.close();
-            printWindow.print();
-          }
-        </script>
-      </body>
-    </html>
-  </head>
+    <div class="container-fluid martop7">
+      <div class="jumbotron jumcust">
+        <h2>Purchase Details</h2>
+
+        <div class="row">
+          <div class="col-md-12">
+            <table
+              class="table table-bordered table-hover table-striped purchases-table"
+            >
+              <thead>
+                <tr>
+                  <th>Purchase ID</th>
+                  <th>Product Name</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Phone Number</th>
+                  <th class="text-right">Price</th>
+                  <th class="text-right">Quantity</th>
+                  <th class="text-right">Total</th>
+                  <th class="no-print">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for foo in purchase %}
+                <tr id="purchase-{{ foo.id }}">
+                  <td class="idlink">
+                    {% if user.is_authenticated and user.role == "admin" %}
+                    <a href="{% url 'purchaseformview' foo.id %}"
+                      >{{ foo.id }}</a
+                    >
+                    {% else %}
+                    <a
+                      href="javascript:void(0);"
+                      onclick="alert('This action is allowed only for admin');"
+                      >{{ foo.id }}</a
+                    >
+                    {% endif %}
+                  </td>
+                  <td>{{ foo.pname }}</td>
+                  <td>{{ foo.fname }}</td>
+                  <td>{{ foo.lname }}</td>
+                  <td>{{ foo.phn_no }}</td>
+                  <td class="text-right">{{ foo.price }}</td>
+                  <td class="text-right">{{ foo.qty }}</td>
+                  <td class="text-right">{{ foo.total }}</td>
+                  <td class="no-print">
+                    <button
+                      class="btn btn-primary btn-sm"
+                      onclick="printPurchase('purchase-{{ foo.id }}')"
+                    >
+                      <span class="glyphicon glyphicon-print"></span> Print
+                    </button>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <footer>
+          <h3>Click on a Purchase ID to Update or Delete the record.</h3>
+        </footer>
+      </div>
+    </div>
+
+    <footer id="contact" class="container-fluid text-center">
+      <div class="row">
+        <div class="col-lg-12">
+          <span class="footer-text">
+            <strong>Do you have any queries? Contact us via </strong>
+            <a
+              href="mailto:abirha3896@gmail.com"
+              style="color: #0057b5; text-decoration: underline"
+              ><strong>Email</strong></a
+            >, or
+            <a
+              href="https://wa.me/8801701554707"
+              target="_blank"
+              style="color: #25d366; text-decoration: underline"
+              ><strong>WhatsApp us</strong></a
+            >.
+          </span>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      function printPurchase(rowId) {
+        var row = document.getElementById(rowId);
+        var cells = row.getElementsByTagName("td");
+        var purchaseData = {
+          id: cells[0].innerText.trim(),
+          pname: cells[1].innerText.trim(),
+          fname: cells[2].innerText.trim(),
+          lname: cells[3].innerText.trim(),
+          phn: cells[4].innerText.trim(),
+          price: cells[5].innerText.trim(),
+          qty: cells[6].innerText.trim(),
+          total: cells[7].innerText.trim(),
+        };
+
+        var receipt = `
+<html>
+<head>
+  <title>Purchase Receipt</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; }
+    .receipt {
+      border: 2px solid #000;
+      padding: 20px;
+      border-radius: 10px;
+      width: 600px;
+      max-width: 90%;
+      margin: auto;
+    }
+    h1 { margin: 0; font-size: 28px; }
+    h2 { margin: 5px 0 15px 0; font-size: 20px; }
+    table { width: 100%; margin: 20px 0; border-collapse: collapse; }
+    th, td { border: 1px solid black; padding: 8px; text-align: center; word-break: break-word; }
+    .footer { margin-top: 20px; font-size: 14px; }
+    .signature { margin-top: 30px; text-align: right; padding-right: 50px; }
+  </style>
+</head>
+<body>
+  <div class="receipt">
+    <h1>Ma Medicine Store</h1>
+    <h2>Purchase Receipt</h2>
+    <p>Address: Uttara, Dhaka, Bangladesh</p>
+    <p>Phone: +8801701554709 | Email: abirha3896@gmail.com</p>
+
+    <table>
+      <tr>
+        <th>Purchase ID</th>
+        <th>Product Name</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Phone Number</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Total</th>
+      </tr>
+      <tr>
+        <td>${purchaseData.id}</td>
+        <td>${purchaseData.pname}</td>
+        <td>${purchaseData.fname}</td>
+        <td>${purchaseData.lname}</td>
+        <td>${purchaseData.phn}</td>
+        <td>${purchaseData.price}</td>
+        <td>${purchaseData.qty}</td>
+        <td>${purchaseData.total}</td>
+      </tr>
+    </table>
+
+    <div class="signature">___________________________<br>Authorized Signature</div>
+    <div class="footer">
+      <p>Thank you for purchasing with <b>Ma Medicine Store</b>.</p>
+    </div>
+  </div>
+</body>
+</html>
+        `;
+
+        var printWindow = window.open("", "_blank", "width=800,height=600");
+        printWindow.document.open();
+        printWindow.document.write(receipt);
+        printWindow.document.close();
+        printWindow.print();
+      }
+    </script>
+  </body>
 </html>
