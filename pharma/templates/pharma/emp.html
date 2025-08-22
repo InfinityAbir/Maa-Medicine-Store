@@ -7,10 +7,7 @@
 
     <!-- Bootstrap 3 -->
     <link rel="stylesheet" href="{% static 'pharma/css/bootstrap.min.css' %}" />
-    <link
-      rel="stylesheet"
-      href="{% static 'pharma/css/bootstrap-theme.min.css' %}"
-    />
+    <link rel="stylesheet" href="{% static 'pharma/css/bootstrap-theme.min.css' %}" />
 
     <!-- Custom inline style -->
     <style>
@@ -38,6 +35,9 @@
       .padtop15 {
         margin-top: 15px;
       }
+      .padtop5 {
+        margin-top: 5px;
+      }
       .alert {
         border-radius: 8px;
       }
@@ -64,23 +64,16 @@
     <title>Add / Update Employee</title>
   </head>
   <body>
-    {% if messages %} {% for message in messages %}
-    <div
-      class="alert alert-success alert-dismissible fade in container"
-      role="alert"
-      style="margin-top: 15px"
-    >
-      <button
-        type="button"
-        class="close"
-        data-dismiss="alert"
-        aria-label="Close"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
-      {{ message }}
-    </div>
-    {% endfor %} {% endif %}
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-success alert-dismissible fade in container" role="alert" style="margin-top: 15px">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
 
     <!-- Navbar -->
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -89,12 +82,7 @@
           <a href="/pharma/" class="navbar-brand">
             <span class="glyphicon glyphicon-home"></span> HOME
           </a>
-          <button
-            type="button"
-            class="navbar-toggle"
-            data-toggle="collapse"
-            data-target="#thisnav"
-          >
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#thisnav">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -105,12 +93,10 @@
           <ul class="nav navbar-nav">
             <!-- Dealer Management -->
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                >Dealer Management <b class="caret"></b
-              ></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dealer Management <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 {% if user.is_authenticated and user.role == "admin" %}
-                <li><a href="/pharma/dealerform/">Add Dealer Details</a></li>
+                  <li><a href="/pharma/dealerform/">Add Dealer Details</a></li>
                 {% endif %}
                 <li><a href="/pharma/dealertable/">View Dealer Details</a></li>
               </ul>
@@ -118,9 +104,7 @@
 
             <!-- Medicine Management -->
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                >Medicine Management <b class="caret"></b
-              ></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Medicine Management <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="/pharma/medform/">Add Medicine Details</a></li>
                 <li><a href="/pharma/medtable/">View Medicine Details</a></li>
@@ -129,12 +113,10 @@
 
             <!-- Employee Management -->
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                >Employee Management <b class="caret"></b
-              ></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Employee Management <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 {% if user.is_authenticated and user.role == "admin" %}
-                <li><a href="/pharma/empform/">Add Employee Details</a></li>
+                  <li><a href="/pharma/empform/">Add Employee Details</a></li>
                 {% endif %}
                 <li><a href="/pharma/emptable/">View Employee Details</a></li>
               </ul>
@@ -142,9 +124,7 @@
 
             <!-- Customer Management -->
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                >Customer Management <b class="caret"></b
-              ></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Customer Management <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="/pharma/custform/">Add Customer Details</a></li>
                 <li><a href="/pharma/custtable/">View Customer Details</a></li>
@@ -153,9 +133,7 @@
 
             <!-- Purchase Information -->
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                >Purchase Information <b class="caret"></b
-              ></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Purchase Information <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="/pharma/purchaseform/">New Purchase</a></li>
                 <li><a href="/pharma/purchasetable/">View All Purchases</a></li>
@@ -166,10 +144,10 @@
           <!-- Right side -->
           <ul class="nav navbar-nav navbar-right">
             {% if user.is_authenticated %}
-            <li><a>Welcome, {{ user.username }}!</a></li>
-            <li><a href="{% url 'logout' %}">Logout</a></li>
+              <li><a>Welcome, {{ user.username }}!</a></li>
+              <li><a href="{% url 'logout' %}">Logout</a></li>
             {% else %}
-            <li><a href="{% url 'login' %}">Login</a></li>
+              <li><a href="{% url 'login' %}">Login</a></li>
             {% endif %}
           </ul>
         </div>
@@ -181,10 +159,7 @@
       <div class="col-md-2"></div>
       <div class="panel panel-default col-md-8">
         <div class="panel-heading">
-          <h1>
-            {% if add %} Add Employee Details {% else %} Update Employee Details
-            {% endif %}
-          </h1>
+          <h1>{% if add %} Add Employee Details {% else %} Update Employee Details {% endif %}</h1>
         </div>
         <div class="panel-body">
           {% if emp %}
@@ -192,67 +167,53 @@
           <form action="/pharma/empformupdate/{{ emp.id }}/" method="post">
             {% csrf_token %}
 
-            <div class="form-group">
-              <label for="empname">Employee Name</label>
-              <input
-                type="text"
-                class="form-control"
-                name="empname"
-                id="empname"
-                value="{{ emp.empname }}"
-                required
-              />
+            <div class="row padtop15">
+              <div class="col-md-3 padtop5">
+                <label for="empname" class="form-control-label">Employee Name:</label>
+              </div>
+              <div class="form-group col-md-8">
+                <input type="text" class="form-control" name="empname" id="empname" placeholder="Employee Name" value="{{ emp.empname|default:'' }}" required />
+              </div>
             </div>
-            <div class="form-group">
-              <label for="emprole">Employee Role</label>
-              <input
-                type="text"
-                class="form-control"
-                name="emprole"
-                id="emprole"
-                value="{{ emp.emprole }}"
-                required
-              />
+
+            <div class="row padtop5">
+              <div class="col-md-3 padtop5">
+                <label for="emprole" class="form-control-label">Employee Role:</label>
+              </div>
+              <div class="form-group col-md-8">
+                <input type="text" class="form-control" name="emprole" id="emprole" placeholder="Employee Role" value="{{ emp.emprole|default:'' }}" required />
+              </div>
             </div>
-            <div class="form-group">
-              <label for="empemail">Email</label>
-              <input
-                type="email"
-                class="form-control"
-                name="empemail"
-                id="empemail"
-                value="{{ emp.empemail }}"
-                required
-              />
+
+            <div class="row padtop5">
+              <div class="col-md-3 padtop5">
+                <label for="empemail" class="form-control-label">Email:</label>
+              </div>
+              <div class="form-group col-md-8">
+                <input type="email" class="form-control" name="empemail" id="empemail" placeholder="Email" value="{{ emp.empemail|default:'' }}" required />
+              </div>
             </div>
-            <div class="form-group">
-              <label for="empphn">Phone No</label>
-              <input
-                type="text"
-                class="form-control"
-                name="empphn"
-                id="empphn"
-                value="{{ emp.empphn }}"
-                required
-              />
+
+            <div class="row padtop5">
+              <div class="col-md-3 padtop5">
+                <label for="empphn" class="form-control-label">Phone No:</label>
+              </div>
+              <div class="form-group col-md-8">
+                <input type="text" class="form-control" name="empphn" id="empphn" placeholder="Contact Number" value="{{ emp.empphn|default:'' }}" required />
+              </div>
             </div>
 
             <!-- Buttons -->
-            <div class="row">
-              <div class="col-md-4 padtop15">
+            <div class="row" id="buttoncustom">
+              <div class="col-md-3"></div>
+              <div class="col-md-2 padtop15">
                 <a href="/pharma/" class="btn btn-default">Cancel</a>
               </div>
-              <div class="col-md-4 padtop15">
-                <button type="submit" class="btn btn-primary">
-                  Update Record
-                </button>
+              <div class="col-md-2 padtop15">
+                <button type="submit" class="btn btn-primary">Update Record</button>
               </div>
-              <div class="col-md-4 padtop15">
-                <a
-                  href="/pharma/empformdelete/{{ emp.id }}/"
-                  class="btn btn-danger"
-                  >Delete Record</a
-                >
+              <div class="col-md-2 padtop15">
+                <a href="/pharma/empformdelete/{{ emp.id }}/" class="btn btn-danger">Delete Record</a>
               </div>
             </div>
           </form>
@@ -262,56 +223,50 @@
           <form action="/pharma/empforminsert/" method="post">
             {% csrf_token %}
 
-            <div class="form-group">
-              <label for="empname">Employee Name</label>
-              <input
-                type="text"
-                class="form-control"
-                name="empname"
-                id="empname"
-                required
-              />
+            <div class="row padtop15">
+              <div class="col-md-3 padtop5">
+                <label for="empname" class="form-control-label">Employee Name:</label>
+              </div>
+              <div class="form-group col-md-8">
+                <input type="text" class="form-control" name="empname" id="empname" placeholder="Employee Name" required />
+              </div>
             </div>
-            <div class="form-group">
-              <label for="emprole">Employee Role</label>
-              <input
-                type="text"
-                class="form-control"
-                name="emprole"
-                id="emprole"
-                required
-              />
+
+            <div class="row padtop5">
+              <div class="col-md-3 padtop5">
+                <label for="emprole" class="form-control-label">Employee Role:</label>
+              </div>
+              <div class="form-group col-md-8">
+                <input type="text" class="form-control" name="emprole" id="emprole" placeholder="Employee Role" required />
+              </div>
             </div>
-            <div class="form-group">
-              <label for="empemail">Email</label>
-              <input
-                type="email"
-                class="form-control"
-                name="empemail"
-                id="empemail"
-                required
-              />
+
+            <div class="row padtop5">
+              <div class="col-md-3 padtop5">
+                <label for="empemail" class="form-control-label">Email:</label>
+              </div>
+              <div class="form-group col-md-8">
+                <input type="email" class="form-control" name="empemail" id="empemail" placeholder="Email" required />
+              </div>
             </div>
-            <div class="form-group">
-              <label for="empphn">Phone No</label>
-              <input
-                type="text"
-                class="form-control"
-                name="empphn"
-                id="empphn"
-                required
-              />
+
+            <div class="row padtop5">
+              <div class="col-md-3 padtop5">
+                <label for="empphn" class="form-control-label">Phone No:</label>
+              </div>
+              <div class="form-group col-md-8">
+                <input type="text" class="form-control" name="empphn" id="empphn" placeholder="Contact Number" required />
+              </div>
             </div>
 
             <!-- Buttons -->
-            <div class="row">
-              <div class="col-md-6 padtop15">
+            <div class="row" id="buttoncustom">
+              <div class="col-md-3"></div>
+              <div class="col-md-2 padtop15">
                 <a href="/pharma/" class="btn btn-default">Cancel</a>
               </div>
-              <div class="col-md-6 padtop15">
-                <button type="submit" class="btn btn-primary">
-                  Add Record
-                </button>
+              <div class="col-md-2 padtop15">
+                <button type="submit" class="btn btn-primary">Add Record</button>
               </div>
             </div>
           </form>
@@ -326,18 +281,9 @@
         <div class="left-footer col-lg-6">
           <span class="footer-text">
             <strong>Do you have any queries? Contact us via </strong>
-            <a
-              href="mailto:abirha3896@gmail.com"
-              style="color: #0057b5; text-decoration: underline"
-              ><strong>Email</strong></a
-            >, or
-            <a
-              href="https://wa.me/8801701554707"
-              target="_blank"
-              style="color: #25d366; text-decoration: underline"
-            >
-              <strong>WhatsApp us</strong> </a
-            >.
+            <a href="mailto:abirha3896@gmail.com" style="color: #0057b5; text-decoration: underline"><strong>Email</strong></a>, 
+            or 
+            <a href="https://wa.me/8801701554707" target="_blank" style="color: #25D366; text-decoration: underline"><strong>WhatsApp us</strong></a>.
           </span>
         </div>
       </div>
