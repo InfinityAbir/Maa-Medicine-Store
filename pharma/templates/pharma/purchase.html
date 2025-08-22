@@ -1,320 +1,384 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Bootstrap 3 -->
-    <link rel="stylesheet" href="{% static 'pharma/css/bootstrap.min.css' %}" />
-    <link rel="stylesheet" href="{% static 'pharma/css/bootstrap-theme.min.css' %}" />
+  <!-- Bootstrap 3 -->
+  <link rel="stylesheet" href="{% static 'pharma/css/bootstrap.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'pharma/css/bootstrap-theme.min.css' %}" />
 
-    <!-- Custom inline style -->
-    <style>
-      body {
-        padding-top: 70px;
-        background-color: #f8f9fa;
-      }
-      .navbar-inverse {
-        border-radius: 0;
-      }
-      .jumbotron.jumcust {
-        background: #ffffff;
-        border-radius: 12px;
-        padding: 30px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      }
-      table {
-        background: #fff;
-        border-radius: 8px;
-        overflow: hidden;
-      }
-      table th {
-        background: #343a40;
-        color: #fff;
-        text-align: center;
-      }
-      table td {
-        text-align: center;
-        vertical-align: middle;
-      }
-      .table-hover tbody tr:hover {
-        background-color: #f1f1f1;
-      }
-      .idlink a {
-        color: #007bff;
-        font-weight: bold;
-        text-decoration: none;
-      }
-      .idlink a:hover {
-        text-decoration: underline;
-      }
-      .alert {
-        border-radius: 8px;
-      }
-      footer {
-        background: #2c3e50;
-        color: #ecf0f1;
-        padding: 25px 15px;
-        margin-top: 40px;
-      }
-      footer a {
-        color: #1abc9c;
-        transition: 0.3s;
-      }
-      footer a:hover {
-        color: #16a085;
-        text-decoration: none;
-      }
-    </style>
+  <!-- Custom inline style -->
+  <style>
+    body {
+      padding-top: 70px;
+      background-color: #f8f9fa;
+    }
+    .navbar-inverse {
+      border-radius: 0;
+    }
+    .jumbotron.jumcust {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    table {
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    table th {
+      background: #343a40;
+      color: #fff;
+      text-align: center;
+    }
+    table td {
+      text-align: center;
+      vertical-align: middle;
+    }
+    .table-hover tbody tr:hover {
+      background-color: #f1f1f1;
+    }
+    .idlink a {
+      color: #007bff;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    .idlink a:hover {
+      text-decoration: underline;
+    }
+    .alert {
+      border-radius: 8px;
+    }
+    footer {
+      background: #2c3e50;
+      color: #ecf0f1;
+      padding: 25px 15px;
+      margin-top: 40px;
+    }
+    footer a {
+      color: #1abc9c;
+      transition: 0.3s;
+    }
+    footer a:hover {
+      color: #16a085;
+      text-decoration: none;
+    }
+    /* ✅ Better spacing between label and fields */
+    .form-label {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+  </style>
 
-    <script src="{% static 'pharma/js/jquery.js' %}"></script>
-    <script src="{% static 'pharma/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'pharma/js/jquery.js' %}"></script>
+  <script src="{% static 'pharma/js/bootstrap.min.js' %}"></script>
 
-    <title>Add Purchase Details</title>
-  </head>
+  <title>{% if add %}Add Purchase Details{% else %}Update Purchase Details{% endif %}</title>
+</head>
 
-  <body>
-    {% if messages %}
-      {% for message in messages %}
-        <div class="alert {% if message.tags == 'error' %}alert-danger{% elif message.tags == 'success' %}alert-success{% else %}alert-info{% endif %} alert-dismissible fade in container" role="alert" style="margin-top: 15px">
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          {{ message }}
-        </div>
-      {% endfor %}
-    {% endif %}
-
-    <!-- Navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a href="/pharma/" class="navbar-brand">
-            <span class="glyphicon glyphicon-home"></span> HOME
-          </a>
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#thisnav">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-        </div>
-
-        <div class="collapse navbar-collapse" id="thisnav">
-          <ul class="nav navbar-nav">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dealer Management <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                {% if user.is_authenticated and user.role == "admin" %}
-                  <li><a href="/pharma/dealerform/">Add Dealer Details</a></li>
-                {% endif %}
-                <li><a href="/pharma/dealertable/">View Dealer Details</a></li>
-              </ul>
-            </li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Medicine Management <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="/pharma/medform/">Add Medicine Details</a></li>
-                <li><a href="/pharma/medtable/">View Medicine Details</a></li>
-              </ul>
-            </li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Employee Management <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                {% if user.is_authenticated and user.role == "admin" %}
-                  <li><a href="/pharma/empform/">Add Employee Details</a></li>
-                {% endif %}
-                <li><a href="/pharma/emptable/">View Employee Details</a></li>
-              </ul>
-            </li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Customer Management <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="/pharma/custform/">Add Customer Details</a></li>
-                <li><a href="/pharma/custtable/">View Customer Details</a></li>
-              </ul>
-            </li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Purchase Information <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="/pharma/purchaseform/">New Purchase</a></li>
-                <li><a href="/pharma/purchasetable/">View All Purchases</a></li>
-              </ul>
-            </li>
-          </ul>
-
-          <ul class="nav navbar-nav navbar-right">
-            {% if user.is_authenticated %}
-              <li><a>Welcome, {{ user.username }}!</a></li>
-              <li><a href="{% url 'logout' %}">Logout</a></li>
-            {% else %}
-              <li><a href="{% url 'login' %}">Login</a></li>
-            {% endif %}
-          </ul>
-        </div>
+<body>
+  <!-- Flash messages -->
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert 
+        {% if message.tags == 'error' %}alert-danger
+        {% elif message.tags == 'success' %}alert-success
+        {% else %}alert-info
+        {% endif %} 
+        alert-dismissible fade in container" 
+        role="alert" style="margin-top: 15px">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        {{ message }}
       </div>
-    </nav>
+    {% endfor %}
+  {% endif %}
 
-    <div class="container">
-      <div class="col-md-2"></div>
-      <div class="panel panel-default col-md-8 jumcust2">
-        <div class="panel-heading">
-          <h1 class="padtop5">
-            {% if add %} Add Purchase Details {% else %} Update Purchase Details {% endif %}
-          </h1>
-        </div>
-        <div class="panel-body">
-          {% if purchase %}
-            <form action="/pharma/purchaseformupdate/{{ purchase.id }}/" method="post">
-              {% csrf_token %}
-              <div class="row padtop15">
-                <div class="col-md-3 padtop5"><label for="productName">Product Name:</label></div>
-                <div class="form-group col-md-4">
-                  <select name="pname" class="form-control" id="productName" required>
-                    <option value="">-- Select Medicine --</option>
-                    {% for med in medicines %}
-                      <option value="{{ med.mname }}" data-price="{{ med.price }}" {% if purchase and purchase.pname == med.mname %}selected{% endif %}>
-                        {{ med.mname }}
-                      </option>
-                    {% endfor %}
-                  </select>
-                </div>
-              </div>
+  <!-- Navbar -->
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a href="/pharma/" class="navbar-brand">
+          <span class="glyphicon glyphicon-home"></span> HOME
+        </a>
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#thisnav">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
 
-              <div class="row padtop15">
-                <div class="col-md-3"><label for="price">Price:</label></div>
-                <div class="col-md-2">
-                  <input type="text" name="price" class="form-control" id="price" placeholder="Price" value="{{ purchase.price }}" readonly required />
-                </div>
-              </div>
+      <div class="collapse navbar-collapse" id="thisnav">
+        <ul class="nav navbar-nav">
+          <!-- Dealer -->
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              Dealer Management <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+              {% if user.is_authenticated and user.role == "admin" %}
+                <li><a href="/pharma/dealerform/">Add Dealer Details</a></li>
+              {% endif %}
+              <li><a href="/pharma/dealertable/">View Dealer Details</a></li>
+            </ul>
+          </li>
 
-              <!-- Customer Info -->
-              <div class="row padtop15">
-                <div class="col-md-3 padtop5"><label for="firstName">Customer Name:</label></div>
-                <div class="form-group col-md-4">
-                  <input type="text" name="fname" class="form-control" id="firstName" placeholder="First Name" value="{{ purchase.fname }}" required />
-                </div>
-                <div class="col-md-4">
-                  <input type="text" name="lname" class="form-control" id="lastName" placeholder="Last Name" value="{{ purchase.lname }}" required />
-                </div>
-              </div>
+          <!-- Medicine -->
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              Medicine Management <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="/pharma/medform/">Add Medicine Details</a></li>
+              <li><a href="/pharma/medtable/">View Medicine Details</a></li>
+            </ul>
+          </li>
 
-              <div class="row padtop5">
-                <div class="col-md-3"><label for="phn_no">Phone Number:</label></div>
-                <div class="col-md-4">
-                  <input type="text" name="pno" class="form-control" id="phn_no" placeholder="Contact Number" value="{{ purchase.phn_no }}" required />
-                </div>
-              </div>
+          <!-- Employee -->
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              Employee Management <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+              {% if user.is_authenticated and user.role == "admin" %}
+                <li><a href="/pharma/empform/">Add Employee Details</a></li>
+              {% endif %}
+              <li><a href="/pharma/emptable/">View Employee Details</a></li>
+            </ul>
+          </li>
 
-              <div class="row padtop15">
-                <div class="col-md-3"><label for="qty">Quantity:</label></div>
-                <div class="col-md-2">
-                  <input type="text" name="qty" class="form-control" id="qty" placeholder="Quantity" value="{{ purchase.qty }}" required />
-                </div>
-              </div>
+          <!-- Customer -->
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              Customer Management <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="/pharma/custform/">Add Customer Details</a></li>
+              <li><a href="/pharma/custtable/">View Customer Details</a></li>
+            </ul>
+          </li>
 
-              <div class="row" id="buttoncustom">
-                <div class="col-md-3"></div>
-                <div class="col-md-2 padtop15">
-                  <button type="submit" class="btn btn-default"><a href="/pharma/">Cancel</a></button>
-                </div>
-                <div class="col-md-2 padtop15">
-                  <button type="submit" class="btn btn-primary">Update Record</button>
-                </div>
-                <div class="col-md-offset-8 padtop15">
-                  <button type="submit" class="delbut btn btn-danger">
-                    <a href="/pharma/purchaseformdelete/{{ purchase.id }}/">Delete Record</a>
-                  </button>
-                </div>
-              </div>
-            </form>
+          <!-- Purchase -->
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              Purchase Information <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="/pharma/purchaseform/">New Purchase</a></li>
+              <li><a href="/pharma/purchasetable/">View All Purchases</a></li>
+            </ul>
+          </li>
+        </ul>
 
+        <!-- User Menu -->
+        <ul class="nav navbar-nav navbar-right">
+          {% if user.is_authenticated %}
+            <li><a>Welcome, {{ user.username }}!</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
           {% else %}
-            <form action="/pharma/purchaseforminsert/" method="post">
-              {% csrf_token %}
-              <div class="row padtop15">
-                <div class="col-md-3 padtop5"><label for="productName">Product Name:</label></div>
-                <div class="form-group col-md-4">
-                  <select name="pname" class="form-control" id="productName" required>
-                    <option value="">-- Select Medicine --</option>
-                    {% for med in medicines %}
-                      <option value="{{ med.mname }}" data-price="{{ med.price }}">{{ med.mname }}</option>
-                    {% endfor %}
-                  </select>
-                </div>
-              </div>
-
-              <div class="row padtop15">
-                <div class="col-md-3"><label for="price">Price:</label></div>
-                <div class="col-md-2">
-                  <input type="text" name="price" class="form-control" id="price" placeholder="Price" readonly required />
-                </div>
-              </div>
-
-              <!-- Customer Info -->
-              <div class="row padtop15">
-                <div class="col-md-3 padtop5"><label for="firstName">Customer Name:</label></div>
-                <div class="form-group col-md-4">
-                  <input type="text" name="fname" class="form-control" id="firstName" placeholder="First Name" required />
-                </div>
-                <div class="col-md-4">
-                  <input type="text" name="lname" class="form-control" id="lastName" placeholder="Last Name" required />
-                </div>
-              </div>
-
-              <div class="row padtop5">
-                <div class="col-md-3"><label for="phn_no">Phone Number:</label></div>
-                <div class="col-md-4">
-                  <input type="text" name="pno" class="form-control" id="phn_no" placeholder="Contact Number" required />
-                </div>
-              </div>
-
-              <div class="row padtop15">
-                <div class="col-md-3"><label for="qty">Quantity:</label></div>
-                <div class="col-md-2">
-                  <input type="text" name="qty" class="form-control" id="qty" placeholder="Quantity" required />
-                </div>
-              </div>
-
-              <div class="row" id="buttoncustom">
-                <div class="col-md-3"></div>
-                <div class="col-md-2 padtop15">
-                  <button type="submit" class="btn btn-default"><a href="/pharma/">Cancel</a></button>
-                </div>
-                <div class="col-md-2 padtop15">
-                  <button type="submit" class="btn btn-primary">Add Record</button>
-                </div>
-              </div>
-            </form>
+            <li><a href="{% url 'login' %}">Login</a></li>
           {% endif %}
-        </div>
+        </ul>
       </div>
     </div>
+  </nav>
 
-    <footer id="contact" class="container-fluid text-center">
-      <div class="row">
-        <div class="left-footer col-lg-6">
-          <span class="footer-text">
-            <strong>Do you have any queries? Contact us via </strong>
-            <a href="mailto:abirha3896@gmail.com" style="color: #0057b5; text-decoration: underline"><strong>Email</strong></a>, or
-            <a href="https://wa.me/8801701554707" target="_blank" style="color: #25d366; text-decoration: underline"><strong>WhatsApp us</strong></a>.
-          </span>
-        </div>
+  <!-- Main Content -->
+  <div class="container">
+    <div class="col-md-2"></div>
+    <div class="panel panel-default col-md-8 jumcust2">
+      <div class="panel-heading">
+        <h1 class="padtop5">
+          {% if add %} Add Purchase Details {% else %} Update Purchase Details {% endif %}
+        </h1>
       </div>
-    </footer>
+      <div class="panel-body">
+        
+        <!-- Update Form -->
+        {% if purchase %}
+          <form action="/pharma/purchaseformupdate/{{ purchase.id }}/" method="post">
+            {% csrf_token %}
 
-    <!-- JS for auto-fill price -->
-    <script>
-      $(document).ready(function() {
-        $('#productName').on('change', function() {
-          var price = $(this).find(':selected').data('price');
-          $('#price').val(price ? price : '');
-        });
+            <!-- Product -->
+            <div class="form-group row">
+              <label for="productName" class="col-md-3 form-label">Product Name:</label>
+              <div class="col-md-4">
+                <select name="pname" class="form-control" id="productName" required>
+                  <option value="">-- Select Medicine --</option>
+                  {% for med in medicines %}
+                    <option value="{{ med.mname }}" data-price="{{ med.price }}" 
+                      {% if purchase and purchase.pname == med.mname %}selected{% endif %}>
+                      {{ med.mname }}
+                    </option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
 
-        // Trigger change on load for update form
-        $('#productName').trigger('change');
+            <!-- Price -->
+            <div class="form-group row">
+              <label for="price" class="col-md-3 form-label">Price:</label>
+              <div class="col-md-2">
+                <input type="text" name="price" class="form-control" id="price"
+                       value="{{ purchase.price }}" readonly required />
+              </div>
+            </div>
+
+            <!-- Customer -->
+            <div class="form-group row">
+              <label for="firstName" class="col-md-3 form-label">Customer Name:</label>
+              <div class="col-md-4">
+                <input type="text" name="fname" class="form-control" id="firstName"
+                       value="{{ purchase.fname }}" placeholder="First Name" required />
+              </div>
+              <div class="col-md-4">
+                <input type="text" name="lname" class="form-control" id="lastName"
+                       value="{{ purchase.lname }}" placeholder="Last Name" required />
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="phn_no" class="col-md-3 form-label">Phone Number:</label>
+              <div class="col-md-4">
+                <input type="text" name="pno" class="form-control" id="phn_no"
+                       value="{{ purchase.phn_no }}" placeholder="Contact Number" required />
+              </div>
+            </div>
+
+            <!-- Quantity -->
+            <div class="form-group row">
+              <label for="qty" class="col-md-3 form-label">Quantity:</label>
+              <div class="col-md-2">
+                <input type="text" name="qty" class="form-control" id="qty"
+                       value="{{ purchase.qty }}" placeholder="Quantity" required />
+              </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="row" id="buttoncustom">
+              <div class="col-md-3"></div>
+              <div class="col-md-2">
+                <a href="/pharma/" class="btn btn-default">Cancel</a>
+              </div>
+              <div class="col-md-2">
+                <button type="submit" class="btn btn-primary">Update Record</button>
+              </div>
+              <div class="col-md-offset-8">
+                <a href="/pharma/purchaseformdelete/{{ purchase.id }}/" 
+                   class="btn btn-danger">Delete Record</a>
+              </div>
+            </div>
+          </form>
+        
+        <!-- Insert Form -->
+        {% else %}
+          <form action="/pharma/purchaseforminsert/" method="post">
+            {% csrf_token %}
+            
+            <!-- Product -->
+            <div class="form-group row">
+              <label for="productName" class="col-md-3 form-label">Product Name:</label>
+              <div class="col-md-4">
+                <select name="pname" class="form-control" id="productName" required>
+                  <option value="">-- Select Medicine --</option>
+                  {% for med in medicines %}
+                    <option value="{{ med.mname }}" data-price="{{ med.price }}">
+                      {{ med.mname }}
+                    </option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+
+            <!-- Price -->
+            <div class="form-group row">
+              <label for="price" class="col-md-3 form-label">Price:</label>
+              <div class="col-md-2">
+                <input type="text" name="price" class="form-control" id="price"
+                       placeholder="Price" readonly required />
+              </div>
+            </div>
+
+            <!-- Customer -->
+            <div class="form-group row">
+              <label for="firstName" class="col-md-3 form-label">Customer Name:</label>
+              <div class="col-md-4">
+                <input type="text" name="fname" class="form-control" id="firstName"
+                       placeholder="First Name" required />
+              </div>
+              <div class="col-md-4">
+                <input type="text" name="lname" class="form-control" id="lastName"
+                       placeholder="Last Name" required />
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="phn_no" class="col-md-3 form-label">Phone Number:</label>
+              <div class="col-md-4">
+                <input type="text" name="pno" class="form-control" id="phn_no"
+                       placeholder="Contact Number" required />
+              </div>
+            </div>
+
+            <!-- Quantity -->
+            <div class="form-group row">
+              <label for="qty" class="col-md-3 form-label">Quantity:</label>
+              <div class="col-md-2">
+                <input type="text" name="qty" class="form-control" id="qty"
+                       placeholder="Quantity" required />
+              </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="row" id="buttoncustom">
+              <div class="col-md-3"></div>
+              <div class="col-md-2">
+                <a href="/pharma/" class="btn btn-default">Cancel</a>
+              </div>
+              <div class="col-md-2">
+                <button type="submit" class="btn btn-primary">Add Record</button>
+              </div>
+            </div>
+          </form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer id="contact" class="container-fluid text-center">
+    <div class="row">
+      <div class="left-footer col-lg-6">
+        <span class="footer-text">
+          <strong>Do you have any queries? Contact us via </strong>
+          <a href="mailto:abirha3896@gmail.com" style="color: #0057b5; text-decoration: underline"><strong>Email</strong></a>, or
+          <a href="https://wa.me/8801701554707" target="_blank" style="color: #25d366; text-decoration: underline"><strong>WhatsApp us</strong></a>.
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JS for auto-fill price -->
+  <script>
+    $(document).ready(function() {
+      $('#productName').on('change', function() {
+        var price = $(this).find(':selected').data('price');
+        $('#price').val(price ? price : '');
       });
-    </script>
-  </body>
+
+      // Trigger change on load for update form
+      $('#productName').trigger('change');
+    });
+  </script>
+</body>
 </html>
