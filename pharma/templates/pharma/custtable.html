@@ -13,54 +13,70 @@
       href="{% static 'pharma/css/bootstrap-theme.min.css' %}"
     />
 
-    <!-- Custom inline style since you don’t have style.css -->
+    <!-- Custom inline styles -->
     <style>
       body {
-        padding-top: 70px; /* Avoid navbar overlap */
+        padding-top: 70px; /* avoid navbar overlap */
         background-color: #f8f9fa;
       }
+
       .navbar-inverse {
         border-radius: 0;
       }
+
       .jumbotron.jumcust {
         background: #ffffff;
         border-radius: 12px;
         padding: 30px;
+        margin-bottom: 40px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       }
+
       .jumbotron h2 {
-        margin-bottom: 20px;
+        margin-bottom: 25px;
         font-weight: bold;
         color: #333;
       }
+
       table {
         background: #fff;
         border-radius: 8px;
         overflow: hidden;
+        margin-bottom: 20px;
       }
+
       table th {
         background: #343a40;
         color: #fff;
         text-align: center;
+        padding: 12px;
       }
+
       table td {
         text-align: center;
         vertical-align: middle;
+        padding: 10px;
       }
+
       .table-hover tbody tr:hover {
         background-color: #f1f1f1;
       }
+
       .idlink a {
         color: #007bff;
         font-weight: bold;
         text-decoration: none;
       }
+
       .idlink a:hover {
         text-decoration: underline;
       }
+
       .alert {
         border-radius: 8px;
+        margin-top: 15px;
       }
+
       /* Footer */
       footer {
         background: #2c3e50;
@@ -68,13 +84,19 @@
         padding: 25px 15px;
         margin-top: 40px;
       }
+
       footer a {
         color: #1abc9c;
         transition: 0.3s;
       }
+
       footer a:hover {
         color: #16a085;
         text-decoration: none;
+      }
+
+      .martop7 {
+        margin-top: 20px;
       }
     </style>
 
@@ -84,12 +106,13 @@
 
     <title>All Customer Details</title>
   </head>
+
   <body>
+    <!-- Messages -->
     {% if messages %} {% for message in messages %}
     <div
       class="alert alert-success alert-dismissible fade in container"
       role="alert"
-      style="margin-top: 15px"
     >
       <button
         type="button"
@@ -124,7 +147,7 @@
 
         <div class="collapse navbar-collapse" id="thisnav">
           <ul class="nav navbar-nav">
-            <!-- Dealer Management (Admins only) -->
+            <!-- Dealer Management -->
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                 >Dealer Management <b class="caret"></b
@@ -197,54 +220,74 @@
       </div>
     </nav>
 
+    <!-- Main Content -->
     <div class="container martop7">
       <div class="jumbotron jumcust">
         <h2>Customer Details</h2>
         <div class="row">
           <div class="col-md-12">
             <table class="table table-hover table-bordered table-responsive">
-              <tr>
-                <th>Customer ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Address</th>
-                <th>Phone Number</th>
-                <th>Email</th>
-              </tr>
-              {% for foo in cust %}
-              <tr>
-                <td class="idlink">
-                  {% if user.is_authenticated and user.role == "admin" %}
+              <thead>
+                <tr>
+                  <th>Customer ID</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Address</th>
+                  <th>Phone Number</th>
+                  <th>Email</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for foo in cust %}
+                <tr>
+                  <td class="idlink">
+                    {% if user.is_authenticated and user.role == "admin" %}
                     <a href="{% url 'custformview' foo.id %}">{{ foo.id }}</a>
-                  {% else %}
-                    <a href="javascript:void(0);" onclick="alert('This action is allowed only for admin');">{{ foo.id }}</a>
-                  {% endif %}
-                </td>
-                <td>{{ foo.fname }}</td>
-                <td>{{ foo.lname }}</td>
-                <td>{{ foo.address }}</td>
-                <td>{{ foo.phn_no }}</td>
-                <td>{{ foo.email }}</td>
-              </tr>
-              {% endfor %}
+                    {% else %}
+                    <a
+                      href="javascript:void(0);"
+                      onclick="alert('This action is allowed only for admin');"
+                      >{{ foo.id }}</a
+                    >
+                    {% endif %}
+                  </td>
+                  <td>{{ foo.fname }}</td>
+                  <td>{{ foo.lname }}</td>
+                  <td>{{ foo.address }}</td>
+                  <td>{{ foo.phn_no }}</td>
+                  <td>{{ foo.email }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
             </table>
           </div>
-        <footer><h3>Click on a Dealer ID to Update or Delete the record.</h3></footer>
+        </div>
+        <footer>
+          <h4>Click on a Customer ID to Update or Delete the record.</h4>
+        </footer>
       </div>
     </div>
-  </duv>
+
+    <!-- Footer -->
     <footer id="contact" class="container-fluid text-center">
       <div class="row">
-          <div class="left-footer col-lg-6">
-            <span class="footer-text">
-              <strong>Do you have any queries? Contact us via </strong>
-              <a href="mailto:abirha3896@gmail.com" style="color: #0057b5; text-decoration: underline;"><strong>Email</strong></a>, 
-              or 
-              <a href="https://wa.me/8801701554707" target="_blank" style="color: #25D366; text-decoration: underline;">
-                <strong>WhatsApp us</strong>
-              </a>.
-            </span>
-          </div>
+        <div class="left-footer col-lg-6 col-lg-offset-3">
+          <span class="footer-text">
+            <strong>Do you have any queries? Contact us via </strong>
+            <a
+              href="mailto:abirha3896@gmail.com"
+              style="color: #0057b5; text-decoration: underline"
+              ><strong>Email</strong></a
+            >, or
+            <a
+              href="https://wa.me/8801701554707"
+              target="_blank"
+              style="color: #25d366; text-decoration: underline"
+            >
+              <strong>WhatsApp us</strong> </a
+            >.
+          </span>
+        </div>
       </div>
     </footer>
   </body>
