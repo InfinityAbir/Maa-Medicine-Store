@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-       <meta charset="utf-8" />
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- Bootstrap 3 -->
@@ -13,7 +13,7 @@
       href="{% static 'pharma/css/bootstrap-theme.min.css' %}"
     />
 
-    <!-- Custom inline style since you don’t have style.css -->
+    <!-- Custom inline style -->
     <style>
       body {
         padding-top: 70px; /* Avoid navbar overlap */
@@ -61,6 +61,12 @@
       .alert {
         border-radius: 8px;
       }
+
+      /* Form spacing */
+      .form-row {
+        margin-bottom: 20px;
+      }
+
       /* Footer */
       footer {
         background: #2c3e50;
@@ -124,7 +130,7 @@
 
         <div class="collapse navbar-collapse" id="thisnav">
           <ul class="nav navbar-nav">
-            <!-- Dealer Management (Admins only) -->
+            <!-- Dealer Management -->
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                 >Dealer Management <b class="caret"></b
@@ -201,7 +207,7 @@
       <div class="col-md-2"></div>
       <div class="panel panel-default col-md-8 jumcust2">
         <div class="panel-heading">
-          <h1 class="padtop5">
+          <h1>
             {% if add %} Add Customer Details {% else %} Update Customer Details
             {% endif %}
           </h1>
@@ -210,13 +216,12 @@
           {% if cust %}
           <form action="/pharma/custformupdate/{{ cust.id }}/" method="post">
             {% csrf_token %}
-            <div class="row padtop15">
-              <div class="col-md-3 padtop5">
-                <label for="firstName" class="form-control-label"
-                  >Customer Name:</label
-                >
+
+            <div class="row form-row">
+              <div class="col-md-3">
+                <label for="firstName">Customer Name:</label>
               </div>
-              <div class="form-group col-md-4">
+              <div class="col-md-4">
                 <input
                   type="text"
                   name="fname"
@@ -239,11 +244,12 @@
                 />
               </div>
             </div>
-            <div class="row padtop5">
-              <div class="col-md-3 padtop5">
-                <label for="address" class="form-control-label">Address:</label>
+
+            <div class="row form-row">
+              <div class="col-md-3">
+                <label for="address">Address:</label>
               </div>
-              <div class="form-group col-md-8">
+              <div class="col-md-8">
                 <input
                   type="text"
                   class="form-control"
@@ -254,11 +260,10 @@
                 />
               </div>
             </div>
-            <div class="row padtop5">
+
+            <div class="row form-row">
               <div class="col-md-3">
-                <label for="phn_no" class="form-control-label padtop5"
-                  >Phone Number:</label
-                >
+                <label for="phn_no">Phone Number:</label>
               </div>
               <div class="col-md-4">
                 <input
@@ -272,11 +277,10 @@
                 />
               </div>
             </div>
-            <div class="row padtop15">
+
+            <div class="row form-row">
               <div class="col-md-3">
-                <label for="email" class="form-control-label padtop5"
-                  >Email:</label
-                >
+                <label for="email">Email:</label>
               </div>
               <div class="col-md-4">
                 <input
@@ -289,44 +293,41 @@
                 />
               </div>
             </div>
-            <div class="row" id="buttoncustom">
+
+            <div class="row form-row">
               <div class="col-md-3"></div>
-              <div class="col-md-2 padtop15">
-                <button type="submit" class="btn btn-default">
-                  <a href="/pharma/">Cancel</a>
-                </button>
+              <div class="col-md-2">
+                <a href="/pharma/" class="btn btn-default btn-block">Cancel</a>
               </div>
-              <div class="col-md-2 padtop15">
-                <button type="submit" class="btn btn-primary">
+              <div class="col-md-3">
+                <button type="submit" class="btn btn-primary btn-block">
                   {% if add %} Add Record {% else %} Update Record {% endif %}
                 </button>
               </div>
-              <div class="col-md-offset-8 padtop15">
-                <button type="submit" class="delbut btn btn-danger">
-                  <a href="/pharma/custformdelete/{{ cust.id }}/"
-                    >Delete Record</a
-                  >
-                </button>
+              <div class="col-md-3">
+                <a
+                  href="/pharma/custformdelete/{{ cust.id }}/"
+                  class="btn btn-danger btn-block"
+                  >Delete Record</a
+                >
               </div>
             </div>
           </form>
           {% else %}
           <form action="/pharma/custforminsert/" method="post">
             {% csrf_token %}
-            <div class="row padtop15">
-              <div class="col-md-3 padtop5">
-                <label for="firstName" class="form-control-label"
-                  >Customer Name:</label
-                >
+
+            <div class="row form-row">
+              <div class="col-md-3">
+                <label for="firstName">Customer Name:</label>
               </div>
-              <div class="form-group col-md-4">
+              <div class="col-md-4">
                 <input
                   type="text"
                   name="fname"
                   class="form-control"
                   id="firstName"
                   placeholder="First Name"
-                  value=""
                   required
                 />
               </div>
@@ -341,11 +342,12 @@
                 />
               </div>
             </div>
-            <div class="row padtop5">
-              <div class="col-md-3 padtop5">
-                <label for="address" class="form-control-label">Address:</label>
+
+            <div class="row form-row">
+              <div class="col-md-3">
+                <label for="address">Address:</label>
               </div>
-              <div class="form-group col-md-8">
+              <div class="col-md-8">
                 <input
                   type="text"
                   class="form-control"
@@ -355,11 +357,10 @@
                 />
               </div>
             </div>
-            <div class="row padtop5">
+
+            <div class="row form-row">
               <div class="col-md-3">
-                <label for="phn_no" class="form-control-label padtop5"
-                  >Phone Number:</label
-                >
+                <label for="phn_no">Phone Number:</label>
               </div>
               <div class="col-md-4">
                 <input
@@ -372,11 +373,10 @@
                 />
               </div>
             </div>
-            <div class="row padtop15">
+
+            <div class="row form-row">
               <div class="col-md-3">
-                <label for="email" class="form-control-label padtop5"
-                  >Email:</label
-                >
+                <label for="email">Email:</label>
               </div>
               <div class="col-md-4">
                 <input
@@ -388,15 +388,14 @@
                 />
               </div>
             </div>
-            <div class="row" id="buttoncustom">
+
+            <div class="row form-row">
               <div class="col-md-3"></div>
-              <div class="col-md-2 padtop15">
-                <button type="submit" class="btn btn-default">
-                  <a href="/pharma/">Cancel</a>
-                </button>
+              <div class="col-md-2">
+                <a href="/pharma/" class="btn btn-default btn-block">Cancel</a>
               </div>
-              <div class="col-md-2 padtop15">
-                <button type="submit" class="btn btn-primary">
+              <div class="col-md-3">
+                <button type="submit" class="btn btn-primary btn-block">
                   {% if add %} Add Record {% else %} Update Record {% endif %}
                 </button>
               </div>
@@ -406,18 +405,25 @@
         </div>
       </div>
     </div>
+
     <footer id="contact" class="container-fluid text-center">
       <div class="row">
-          <div class="left-footer col-lg-6">
-            <span class="footer-text">
-              <strong>Do you have any queries? Contact us via </strong>
-              <a href="mailto:abirha3896@gmail.com" style="color: #0057b5; text-decoration: underline;"><strong>Email</strong></a>, 
-              or 
-              <a href="https://wa.me/8801701554707" target="_blank" style="color: #25D366; text-decoration: underline;">
-                <strong>WhatsApp us</strong>
-              </a>.
-            </span>
-          </div>
+        <div class="left-footer col-lg-6">
+          <span class="footer-text">
+            <strong>Do you have any queries? Contact us via </strong>
+            <a
+              href="mailto:abirha3896@gmail.com"
+              style="color: #0057b5; text-decoration: underline"
+              ><strong>Email</strong></a
+            >, or
+            <a
+              href="https://wa.me/8801701554707"
+              target="_blank"
+              style="color: #25d366; text-decoration: underline"
+            >
+              <strong>WhatsApp us</strong> </a
+            >.
+          </span>
         </div>
       </div>
     </footer>
