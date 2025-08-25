@@ -1,9 +1,10 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Home</title>
+    <meta charset="UTF-8" />
+    <title>Maa Medicine Store</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="{% static 'pharma/css/bootstrap.min.css' %}" />
     <link
@@ -20,28 +21,35 @@
       integrity="sha384-4oV5EgaV02iISL2ban6c/RmotsABqE4yZxZLcYMAdG7FAPsyHYAPpywE9PJo+Khy"
       crossorigin="anonymous"
     ></script>
-    <script type="text/javascript" src="{% static 'pharma/js/npm.js' %}"></script>
-    <script type="text/javascript" src="{% static 'pharma/js/jquery.js' %}"></script>
-    <script type="text/javascript" src="{% static 'pharma/js/bootstrap.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'pharma/js/script.js' %}"></script>
+    <script src="{% static 'pharma/js/jquery.js' %}"></script>
+    <script src="{% static 'pharma/js/bootstrap.min.js' %}"></script>
 
-    <!-- Custom Styles -->
     <style>
       body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background: #fdfdfd;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #f5f7fa;
+        margin: 0;
+        padding-left: 220px; /* Space for navbar */
         color: #2c3e50;
-        line-height: 1.6;
+        transition: padding-left 0.3s ease;
       }
 
-      /* Scrolling text bar */
+      /* Remove padding when navbar hides */
+      body.nav-hidden {
+        padding-left: 0;
+      }
+
       .top-scroll {
-        background: #fd0d0d;
-        color: white;
+        background: #e74c3c;
+        color: #fff;
         padding: 8px 0;
-        overflow: hidden;
         font-weight: bold;
         text-align: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1051;
       }
       .top-scroll .marquee {
         display: inline-block;
@@ -54,45 +62,96 @@
         100% { transform: translateX(-100%); }
       }
 
+      /* Modern Vertical Navbar */
+      .navbar-vertical {
+        position: fixed;
+        top: 35px;
+        left: 0;
+        width: 220px;
+        height: 100%;
+        background-color: #34495e;
+        overflow-y: auto;
+        padding-top: 20px;
+        box-shadow: 2px 0 6px rgba(0,0,0,0.15);
+        transition: transform 0.3s ease;
+        z-index: 1050;
+      }
+      .navbar-vertical a.nav-link {
+        display: flex;
+        align-items: center;
+        color: #ecf0f1;
+        padding: 12px 20px;
+        font-weight: 500;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+      .navbar-vertical a.nav-link:hover {
+        background-color: #1abc9c;
+        color: #fff;
+      }
+      .navbar-vertical .nav-icon {
+        margin-right: 10px;
+        font-size: 16px;
+        width: 20px;
+        text-align: center;
+      }
+      .navbar-vertical .submenu {
+        display: none;
+        flex-direction: column;
+        padding-left: 15px;
+        margin-top: 5px;
+      }
+      .navbar-vertical .submenu a {
+        padding: 8px 20px;
+        font-size: 14px;
+        color: #bdc3c7;
+      }
+      .navbar-vertical .submenu a:hover {
+        background-color: #16a085;
+        color: #fff;
+      }
+      .navbar-vertical .nav-item.active > .submenu {
+        display: flex;
+      }
+      .navbar-vertical .dropdown-toggle::after {
+        margin-left: auto;
+        transition: transform 0.3s;
+      }
+      .navbar-vertical .nav-item.active > .dropdown-toggle::after {
+        transform: rotate(90deg);
+      }
+      .navbar-right-vertical {
+        margin-top: 20px;
+        border-top: 1px solid rgba(255,255,255,0.2);
+        padding-top: 15px;
+      }
+      .navbar-right-vertical a {
+        display: block;
+        color: #ecf0f1;
+        padding: 10px 20px;
+        transition: all 0.3s;
+      }
+      .navbar-right-vertical a:hover {
+        background-color: #1abc9c;
+        color: #fff;
+      }
+
+      /* Hide navbar */
+      body.nav-hidden .navbar-vertical {
+        transform: translateX(-220px);
+      }
+
       /* Hero Section */
       #hero-section {
-        background: linear-gradient(135deg, #3498db, #2ecc71);
-        color: white;
+        background: linear-gradient(135deg, #2980b9, #1abc9c);
+        color: #fff;
         border-radius: 16px;
         margin: 40px auto;
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         text-align: center;
-        padding: 70px 25px;
+        padding: 80px 25px;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
-      }
-      #hero-section:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
-      }
-      #hero-section h1 {
-        font-weight: 700;
-        font-size: 50px;
-        letter-spacing: 1px;
-      }
-      #hero-section p {
-        font-size: 18px;
-        margin-top: 15px;
-        opacity: 0.9;
-        font-style: italic;
-      }
-      #hero-section .btn {
-        padding: 12px 30px;
-        font-size: 18px;
-        border-radius: 30px;
-        background: #fff;
-        color: #2c3e50;
-        font-weight: 600;
-        transition: all 0.3s ease;
-      }
-      #hero-section .btn:hover {
-        background: #1abc9c;
-        color: #fff;
-        transform: scale(1.08);
       }
 
       /* About Section */
@@ -114,10 +173,6 @@
       #about-section p {
         font-size: 16px;
         color: #555;
-        transition: color 0.3s ease;
-      }
-      #about-section p:hover {
-        color: #2c3e50;
       }
 
       /* Highlights Section */
@@ -128,56 +183,22 @@
         margin-bottom: 30px;
         padding: 20px;
         border-radius: 12px;
+        background: #fff;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         transition: all 0.3s ease;
       }
       #highlights-section .col-md-4:hover {
-        background: #f9f9f9;
         transform: translateY(-8px);
-        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
-      }
-      #highlights-section .col-md-4 i {
-        margin-bottom: 15px;
-        transition: transform 0.3s ease, color 0.3s ease;
-      }
-      #highlights-section .col-md-4:hover i {
-        transform: rotate(10deg) scale(1.2);
-        color: #1abc9c !important;
-      }
-      #highlights-section .col-md-4 h4 {
-        margin-top: 10px;
-        font-weight: 600;
-        color: #2c3e50;
-        transition: color 0.3s ease;
-      }
-      #highlights-section .col-md-4:hover h4 {
-        color: #1abc9c;
-      }
-      #highlights-section .col-md-4 p {
-        font-size: 15px;
-        color: #7f8c8d;
-        transition: color 0.3s ease;
-      }
-      #highlights-section .col-md-4:hover p {
-        color: #2c3e50;
+        box-shadow: 0 8px 18px rgba(0,0,0,0.1);
       }
 
       /* Quote Section */
       #quote-section {
-        padding: 40px 25px;
+        padding: 50px 25px;
         background: #ecf0f1;
         border-radius: 12px;
         margin-top: 50px;
-        transition: background 0.3s ease;
-      }
-      #quote-section:hover {
-        background: #dfe6e9;
-      }
-      #quote-section h3 {
-        font-size: 20px;
-        font-weight: 500;
-        color: #34495e;
-        font-style: italic;
-        margin: 0;
+        text-align: center;
       }
 
       /* Footer */
@@ -195,100 +216,119 @@
         text-decoration: none;
       }
 
-      /* Responsive */
       @media (max-width: 768px) {
-        #hero-section h1 {
-          font-size: 32px;
-        }
-        #hero-section p {
-          font-size: 15px;
-        }
-        #highlights-section .col-md-4 {
-          text-align: center;
+        body { padding-left: 0; }
+        .navbar-vertical {
+          width: 100%;
+          height: auto;
+          position: relative;
+          transform: translateX(-100%);
+          top: 0;
+          box-shadow: none;
         }
       }
     </style>
+
+    <script>
+      $(document).ready(function () {
+        // Dropdown submenu toggle
+        $('.dropdown-toggle').click(function (e) {
+          e.preventDefault();
+          $(this).parent().toggleClass('active');
+          $(this).siblings('.submenu').slideToggle(200);
+        });
+
+        // Auto-hide on scroll and adjust content
+        let lastScroll = 0;
+        $(window).scroll(function () {
+          let currentScroll = $(this).scrollTop();
+          if (currentScroll > lastScroll && currentScroll > 50) {
+            $('body').addClass('nav-hidden');
+          } else {
+            $('body').removeClass('nav-hidden');
+          }
+          lastScroll = currentScroll;
+        });
+      });
+    </script>
   </head>
 
   <body>
-    <!-- Scrolling text bar -->
-    <div class="top-scroll" dir="rtl" style="position: fixed; top: 0; left: 0; width: 100%; z-index: 1051">
+    <div class="top-scroll" dir="rtl">
       <div class="marquee">
         💊 "Welcome to <strong>Medicine Store</strong> — Your Trusted Partner
         for Quality Medicines & Health Care Solutions" 💊
       </div>
     </div>
 
-    <!-- Navbar -->
-    <nav class="navbar bg-dark border-bottom border-body navbar-inverse navbar-fixed-top" data-bs-theme="dark" style="margin-top: 35px">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a href="/pharma/" class="navbar-brand">
-            <span class="glyphicon glyphicon glyphicon-home"></span>&nbsp;HOME
+    <!-- Vertical Navbar -->
+    <nav class="navbar-vertical">
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a href="/pharma/" class="nav-link">
+            <span class="nav-icon glyphicon glyphicon-home"></span> HOME
           </a>
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#thisnav">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-        </div>
-
-        <div class="collapse navbar-collapse" id="thisnav">
-          <ul class="nav navbar-nav">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dealer Management<b class="caret"></b></a>
-              <ul id="dealer-menu" class="dropdown-menu inverse-dropdown">
-                {% if user.is_authenticated and user.role == "admin" %}
-                <li><a href="/pharma/dealerform/">Add Dealer Details</a></li>
-                {% endif %}
-                <li><a href="/pharma/dealertable/">View Dealer Details</a></li>
-              </ul>
-            </li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Medicine Management<b class="caret"></b></a>
-              <ul id="med-menu" class="dropdown-menu inverse-dropdown">
-                <li><a href="/pharma/medform/">Add Medicine Details</a></li>
-                <li><a href="/pharma/medtable/">View Medicine Details</a></li>
-              </ul>
-            </li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Employee Management<b class="caret"></b></a>
-              <ul id="emp-menu" class="dropdown-menu inverse-dropdown">
-                {% if user.is_authenticated and user.role == "admin" %}
-                <li><a href="/pharma/empform/">Add Employee Details</a></li>
-                {% endif %}
-                <li><a href="/pharma/emptable/">View Employee Details</a></li>
-              </ul>
-            </li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Customer Management<b class="caret"></b></a>
-              <ul id="cust-menu" class="dropdown-menu inverse-dropdown">
-                <li><a href="/pharma/custform/">Add Customer Details</a></li>
-                <li><a href="/pharma/custtable/">View Customer Details</a></li>
-              </ul>
-            </li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Purchase Information<b class="caret"></b></a>
-              <ul id="purchase-menu" class="dropdown-menu inverse-dropdown">
-                <li><a href="/pharma/purchaseform/">New Purchase</a></li>
-                <li><a href="/pharma/purchasetable/">View All Purchases</a></li>
-              </ul>
-            </li>
-          </ul>
-
-          <ul class="nav navbar-nav navbar-right">
-            {% if user.is_authenticated %}
-            <li><a>Welcome, {{ user.username }}!</a></li>
-            <li><a href="{% url 'logout' %}">Logout</a></li>
-            {% else %}
-            <li><a href="{% url 'login' %}">Login</a></li>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link dropdown-toggle">
+            <span class="nav-icon fas fa-handshake"></span> Dealer Management
+          </a>
+          <div class="submenu">
+            {% if user.is_authenticated and user.role == "admin" %}
+            <a href="/pharma/dealerform/">Add Dealer Details</a>
             {% endif %}
-          </ul>
-        </div>
-      </div>
-    </nav>
+            <a href="/pharma/dealertable/">View Dealer Details</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link dropdown-toggle">
+            <span class="nav-icon fas fa-pills"></span> Medicine Management
+          </a>
+          <div class="submenu">
+            <a href="/pharma/medform/">Add Medicine Details</a>
+            <a href="/pharma/medtable/">View Medicine Details</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link dropdown-toggle">
+            <span class="nav-icon fas fa-user-tie"></span> Employee Management
+          </a>
+          <div class="submenu">
+            {% if user.is_authenticated and user.role == "admin" %}
+            <a href="/pharma/empform/">Add Employee Details</a>
+            {% endif %}
+            <a href="/pharma/emptable/">View Employee Details</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link dropdown-toggle">
+            <span class="nav-icon fas fa-users"></span> Customer Management
+          </a>
+          <div class="submenu">
+            <a href="/pharma/custform/">Add Customer Details</a>
+            <a href="/pharma/custtable/">View Customer Details</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link dropdown-toggle">
+            <span class="nav-icon fas fa-shopping-basket"></span> Purchase Information
+          </a>
+          <div class="submenu">
+            <a href="/pharma/purchaseform/">New Purchase</a></br>
+            <a href="/pharma/purchasetable/">View All Purchases</a>
+          </div>
+        </li>
 
-    <div style="margin-top: 100px"></div>
+        <div class="navbar-right-vertical">
+          {% if user.is_authenticated %}
+          <a>Welcome, {{ user.username }}!</a>
+          <a href="{% url 'logout' %}">Logout</a>
+          {% else %}
+          <a href="{% url 'login' %}">Login</a>
+          {% endif %}
+        </div>
+      </ul>
+    </nav>
 
     <!-- Hero Section -->
     <div id="hero-section" class="jumbotron">
@@ -349,6 +389,9 @@
           <a href="https://wa.me/8801701554707" target="_blank" class="mx-2" title="WhatsApp">
             <i class="fab fa-whatsapp fa-lg" style="color: #25d366"></i>
           </a>
+          <div class="small">
+            &copy;<strong>All Rights Reserved.</strong>
+          </div>
         </span>
       </div>
     </footer>
