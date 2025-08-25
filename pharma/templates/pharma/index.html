@@ -20,22 +20,10 @@
       integrity="sha384-4oV5EgaV02iISL2ban6c/RmotsABqE4yZxZLcYMAdG7FAPsyHYAPpywE9PJo+Khy"
       crossorigin="anonymous"
     ></script>
-    <script
-      type="text/javascript"
-      src="{% static 'pharma/js/npm.js' %}"
-    ></script>
-    <script
-      type="text/javascript"
-      src="{% static 'pharma/js/jquery.js' %}"
-    ></script>
-    <script
-      type="text/javascript"
-      src="{% static 'pharma/js/bootstrap.min.js' %}"
-    ></script>
-    <script
-      type="text/javascript"
-      src="{% static 'pharma/js/script.js' %}"
-    ></script>
+    <script type="text/javascript" src="{% static 'pharma/js/npm.js' %}"></script>
+    <script type="text/javascript" src="{% static 'pharma/js/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'pharma/js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'pharma/js/script.js' %}"></script>
 
     <!-- Custom Styles -->
     <style>
@@ -62,117 +50,160 @@
         padding-left: 100%;
       }
       @keyframes slide-rtl {
-        0% {
-          transform: translateX(0%);
-        }
-        100% {
-          transform: translateX(-100%);
-        }
-      }
-
-      /* Navbar */
-      .navbar {
-        border-radius: 0 !important;
-        font-size: 15px;
-        font-weight: 500;
+        0% { transform: translateX(0%); }
+        100% { transform: translateX(-100%); }
       }
 
       /* Hero Section */
-      .jumbotron {
+      #hero-section {
         background: linear-gradient(135deg, #3498db, #2ecc71);
         color: white;
-        border-radius: 12px;
+        border-radius: 16px;
         margin: 40px auto;
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         text-align: center;
-        padding: 60px 20px;
+        padding: 70px 25px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
       }
-      .jumbotron h1 {
+      #hero-section:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+      }
+      #hero-section h1 {
         font-weight: 700;
-        font-size: 48px;
+        font-size: 50px;
+        letter-spacing: 1px;
       }
-      .jumbotron p {
+      #hero-section p {
         font-size: 18px;
-        margin-top: 10px;
+        margin-top: 15px;
+        opacity: 0.9;
+        font-style: italic;
       }
-      .jumbotron .btn {
-        padding: 12px 28px;
+      #hero-section .btn {
+        padding: 12px 30px;
         font-size: 18px;
-        border-radius: 25px;
-        transition: 0.3s;
+        border-radius: 30px;
+        background: #fff;
+        color: #2c3e50;
+        font-weight: 600;
+        transition: all 0.3s ease;
       }
-      .jumbotron .btn:hover {
+      #hero-section .btn:hover {
         background: #1abc9c;
-        transform: scale(1.05);
+        color: #fff;
+        transform: scale(1.08);
       }
 
       /* About Section */
-      .container h2 {
+      #about-section h2 {
         margin-bottom: 20px;
-        font-weight: 600;
+        font-weight: 700;
+        color: #2c3e50;
+        position: relative;
       }
-      .container p {
+      #about-section h2::after {
+        content: "";
+        display: block;
+        width: 60px;
+        height: 3px;
+        background: #1abc9c;
+        margin: 10px auto 0;
+        border-radius: 2px;
+      }
+      #about-section p {
         font-size: 16px;
         color: #555;
+        transition: color 0.3s ease;
+      }
+      #about-section p:hover {
+        color: #2c3e50;
       }
 
       /* Highlights Section */
-      .container .row {
-        margin-top: 30px;
+      #highlights-section .row {
+        margin-top: 40px;
       }
-      .container .col-md-4 {
+      #highlights-section .col-md-4 {
         margin-bottom: 30px;
+        padding: 20px;
+        border-radius: 12px;
+        transition: all 0.3s ease;
       }
-      .container .col-md-4 i {
+      #highlights-section .col-md-4:hover {
+        background: #f9f9f9;
+        transform: translateY(-8px);
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+      }
+      #highlights-section .col-md-4 i {
         margin-bottom: 15px;
-        transition: 0.3s;
+        transition: transform 0.3s ease, color 0.3s ease;
       }
-      .container .col-md-4 i:hover {
-        transform: rotate(10deg) scale(1.1);
+      #highlights-section .col-md-4:hover i {
+        transform: rotate(10deg) scale(1.2);
+        color: #1abc9c !important;
       }
-      .container .col-md-4 h4 {
+      #highlights-section .col-md-4 h4 {
         margin-top: 10px;
         font-weight: 600;
         color: #2c3e50;
+        transition: color 0.3s ease;
       }
-      .container .col-md-4 p {
+      #highlights-section .col-md-4:hover h4 {
+        color: #1abc9c;
+      }
+      #highlights-section .col-md-4 p {
         font-size: 15px;
         color: #7f8c8d;
+        transition: color 0.3s ease;
+      }
+      #highlights-section .col-md-4:hover p {
+        color: #2c3e50;
       }
 
       /* Quote Section */
-      .container-fluid h3 {
+      #quote-section {
+        padding: 40px 25px;
+        background: #ecf0f1;
+        border-radius: 12px;
+        margin-top: 50px;
+        transition: background 0.3s ease;
+      }
+      #quote-section:hover {
+        background: #dfe6e9;
+      }
+      #quote-section h3 {
         font-size: 20px;
         font-weight: 500;
-        color: #2c3e50;
+        color: #34495e;
+        font-style: italic;
         margin: 0;
       }
 
       /* Footer */
-      footer {
-        background: #2c3e50;
-        color: #ecf0f1;
-        padding: 25px 15px;
-        margin-top: 40px;
-      }
-      footer a {
+      #contact a {
         color: #1abc9c;
-        transition: 0.3s;
+        font-size: 22px;
+        margin: 0 12px;
+        display: inline-block;
+        transition: transform 0.3s, color 0.3s, text-shadow 0.3s;
       }
-      footer a:hover {
+      #contact a:hover {
         color: #16a085;
+        transform: scale(1.4) rotate(10deg);
+        text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
         text-decoration: none;
       }
 
       /* Responsive */
       @media (max-width: 768px) {
-        .jumbotron h1 {
+        #hero-section h1 {
           font-size: 32px;
         }
-        .jumbotron p {
+        #hero-section p {
           font-size: 15px;
         }
-        .container .col-md-4 {
+        #highlights-section .col-md-4 {
           text-align: center;
         }
       }
@@ -181,11 +212,7 @@
 
   <body>
     <!-- Scrolling text bar -->
-    <div
-      class="top-scroll"
-      dir="rtl"
-      style="position: fixed; top: 0; left: 0; width: 100%; z-index: 1051"
-    >
+    <div class="top-scroll" dir="rtl" style="position: fixed; top: 0; left: 0; width: 100%; z-index: 1051">
       <div class="marquee">
         💊 "Welcome to <strong>Medicine Store</strong> — Your Trusted Partner
         for Quality Medicines & Health Care Solutions" 💊
@@ -193,23 +220,13 @@
     </div>
 
     <!-- Navbar -->
-    <nav
-      class="navbar bg-dark border-bottom border-body navbar-inverse navbar-fixed-top"
-      data-bs-theme="dark"
-      style="margin-top: 35px"
-    >
+    <nav class="navbar bg-dark border-bottom border-body navbar-inverse navbar-fixed-top" data-bs-theme="dark" style="margin-top: 35px">
       <div class="container-fluid">
         <div class="navbar-header">
-          <a href="/pharma/" class="navbar-brand"
-            ><span class="glyphicon glyphicon glyphicon-home"></span
-            >&nbsp;HOME</a
-          >
-          <button
-            type="button"
-            class="navbar-toggle"
-            data-toggle="collapse"
-            data-target="#thisnav"
-          >
+          <a href="/pharma/" class="navbar-brand">
+            <span class="glyphicon glyphicon glyphicon-home"></span>&nbsp;HOME
+          </a>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#thisnav">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -218,11 +235,8 @@
 
         <div class="collapse navbar-collapse" id="thisnav">
           <ul class="nav navbar-nav">
-            <!-- Dealer Management (Admins only) -->
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                >Dealer Management<b class="caret"></b
-              ></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dealer Management<b class="caret"></b></a>
               <ul id="dealer-menu" class="dropdown-menu inverse-dropdown">
                 {% if user.is_authenticated and user.role == "admin" %}
                 <li><a href="/pharma/dealerform/">Add Dealer Details</a></li>
@@ -230,23 +244,15 @@
                 <li><a href="/pharma/dealertable/">View Dealer Details</a></li>
               </ul>
             </li>
-
-            <!-- Medicine Management -->
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                >Medicine Management<b class="caret"></b
-              ></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Medicine Management<b class="caret"></b></a>
               <ul id="med-menu" class="dropdown-menu inverse-dropdown">
                 <li><a href="/pharma/medform/">Add Medicine Details</a></li>
                 <li><a href="/pharma/medtable/">View Medicine Details</a></li>
               </ul>
             </li>
-
-            <!-- Employee Management -->
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                >Employee Management<b class="caret"></b
-              ></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Employee Management<b class="caret"></b></a>
               <ul id="emp-menu" class="dropdown-menu inverse-dropdown">
                 {% if user.is_authenticated and user.role == "admin" %}
                 <li><a href="/pharma/empform/">Add Employee Details</a></li>
@@ -254,23 +260,15 @@
                 <li><a href="/pharma/emptable/">View Employee Details</a></li>
               </ul>
             </li>
-
-            <!-- Customer Management -->
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                >Customer Management<b class="caret"></b
-              ></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Customer Management<b class="caret"></b></a>
               <ul id="cust-menu" class="dropdown-menu inverse-dropdown">
                 <li><a href="/pharma/custform/">Add Customer Details</a></li>
                 <li><a href="/pharma/custtable/">View Customer Details</a></li>
               </ul>
             </li>
-
-            <!-- Purchase Information -->
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                >Purchase Information<b class="caret"></b
-              ></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Purchase Information<b class="caret"></b></a>
               <ul id="purchase-menu" class="dropdown-menu inverse-dropdown">
                 <li><a href="/pharma/purchaseform/">New Purchase</a></li>
                 <li><a href="/pharma/purchasetable/">View All Purchases</a></li>
@@ -278,7 +276,6 @@
             </li>
           </ul>
 
-          <!-- Right side -->
           <ul class="nav navbar-nav navbar-right">
             {% if user.is_authenticated %}
             <li><a>Welcome, {{ user.username }}!</a></li>
@@ -291,75 +288,68 @@
       </div>
     </nav>
 
-    <!-- Space for fixed navbar -->
     <div style="margin-top: 100px"></div>
 
     <!-- Hero Section -->
-    <div class="jumbotron">
+    <div id="hero-section" class="jumbotron">
       <h1>Maa Medicine Store</h1>
-      <p>A complete pharmacy management system built with Django</p>
-      <p style="font-size: 16px; font-style: italic; color: #f0f0f0">
-        "The greatest wealth is health." – Virgil
-      </p>
+      <p>"The greatest wealth is health." – Virgil</p>
     </div>
 
     <!-- About Section -->
-    <div class="container text-center">
-      <h2>About This Project</h2>
+    <div id="about-section" class="container text-center">
+      <h2>About Our Store</h2>
       <p style="max-width: 700px; margin: 20px auto">
-        Maa Medicine Store is a digital pharmacy management system that helps
-        manage medicines, customers, dealers, employees, and purchase records.
-        It is designed to simplify daily pharmacy operations and ensure accuracy
-        in medicine stock handling.
+        Maa Medicine Store is your trusted local pharmacy dedicated to providing
+        quality medicines and healthcare products at affordable prices. We serve
+        our community with honesty and care, ensuring customers get the right
+        products when they need them.
+      </p>
+      <p style="max-width: 700px; margin: 10px auto">
+        <strong>Location:</strong> Sadullapur Bazaar, Gaibandha <br />
+        <strong>Phone:</strong> 01717452462
       </p>
     </div>
 
     <!-- Highlights Section -->
-    <div class="container text-center">
+    <div id="highlights-section" class="container text-center">
       <h2>Key Highlights</h2>
       <div class="row">
         <div class="col-md-4">
           <i class="fas fa-capsules fa-3x" style="color: #2980b9"></i>
-          <h4>Medicine Management</h4>
-          <p>Easily add, update, and track medicines in stock.</p>
+          <h4>Wide Range of Medicines</h4>
+          <p>We provide authentic medicines and healthcare products for your needs.</p>
         </div>
         <div class="col-md-4">
           <i class="fas fa-users fa-3x" style="color: #27ae60"></i>
-          <h4>Customer & Dealer Records</h4>
-          <p>Keep organized details of customers, dealers, and employees.</p>
+          <h4>Customer Care</h4>
+          <p>Friendly service with trusted advice for our valued customers.</p>
         </div>
         <div class="col-md-4">
           <i class="fas fa-shopping-cart fa-3x" style="color: #e67e22"></i>
-          <h4>Purchases & Sales</h4>
-          <p>Manage purchase information and generate insights quickly.</p>
+          <h4>Affordable Pricing</h4>
+          <p>Quality medicines and essentials at fair and competitive prices.</p>
         </div>
       </div>
     </div>
 
     <!-- Quote Section -->
-    <div
-      class="container-fluid text-center"
-      style="background: #ecf0f1; padding: 40px; margin-top: 50px"
-    >
-      <h3 style="font-style: italic; color: #34495e">
-        "Medicine cures diseases, but only doctors can cure patients." – Carl
-        Jung
-      </h3>
+    <div id="quote-section" class="container-fluid text-center">
+      <h3>"Medicine cures diseases, but only doctors can cure patients." – Carl Jung</h3>
     </div>
 
     <!-- Footer -->
-    <footer id="contact" class="container-fluid text-center">
-      <div class="row">
-        <div class="left-footer col-lg-6">
-          <span class="footer-text">
-            <strong>Do you have any queries? Contact us via </strong>
-            <a href="mailto:abirha3896@gmail.com"><strong>Email</strong></a
-            >, or
-            <a href="https://wa.me/8801701554707" target="_blank"
-              ><strong>WhatsApp us</strong></a
-            >
-          </span>
-        </div>
+    <footer id="contact" class="bg-light py-3 text-center fixed-bottom">
+      <div class="container">
+        <span class="footer-text">
+          <strong>Do you have any queries? Contact us via </strong></br>
+          <a href="mailto:abirha3896@gmail.com" class="mx-2" title="Email">
+            <i class="fas fa-envelope fa-lg" style="color: #d35400"></i>
+          </a>
+          <a href="https://wa.me/8801701554707" target="_blank" class="mx-2" title="WhatsApp">
+            <i class="fab fa-whatsapp fa-lg" style="color: #25d366"></i>
+          </a>
+        </span>
       </div>
     </footer>
   </body>
