@@ -15,6 +15,10 @@
       rel="shortcut icon"
       href="{% static 'pharma/css/images/favicon2.ico' %}"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
     <script
       type="text/javascript"
       src="{% static 'pharma/js/jquery.js' %}"
@@ -47,6 +51,20 @@
         100% {
           transform: translateX(-100%);
         }
+      }
+      /* Footer */
+      #contact a {
+        color: #1abc9c;
+        font-size: 22px;
+        margin: 0 12px;
+        display: inline-block;
+        transition: transform 0.3s, color 0.3s, text-shadow 0.3s;
+      }
+      #contact a:hover {
+        color: #16a085;
+        transform: scale(1.4) rotate(10deg);
+        text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+        text-decoration: none;
       }
     </style>
   </head>
@@ -103,7 +121,9 @@
         <div class="col-md-4">
           <div class="panel panel-default">
             <div class="panel-heading text-center">
-              <h3>Login to Medicine Store</h3>
+              <h3 class="text-center mb-4" style="color: #1a73e8">
+                Login to Maa Medicine Store
+              </h3>
             </div>
             <div class="panel-body">
               {% if messages %} {% for message in messages %}
@@ -138,9 +158,14 @@
                     required
                   />
                 </div>
-                <button type="submit" class="btn btn-primary btn-block">
+                <button
+                  type="submit"
+                  class="btn btn-success btn-lg w-100"
+                  style="font-weight: bold; font-size: 1.1rem"
+                >
                   Login
-                </button></br>
+                </button>
+
                 <p class="text-center">
                   New user? <a href="{% url 'register' %}">Create an account</a>
                 </p>
@@ -152,28 +177,17 @@
     </div>
 
     <!-- Footer -->
-    <footer
-      id="contact"
-      class="container-fluid text-center"
-      style="margin-top: 50px"
-    >
-      <div class="row">
-        <div class="left-footer col-lg-6">
-          <span class="footer-text">
-            <strong>Do you have any queries? Contact us via </strong>
-            <a
-              href="mailto:abirha3896@gmail.com"
-              style="color: #0057b5; text-decoration: underline"
-              ><strong>Email</strong></a
-            >, or
-            <a
-              href="https://wa.me/8801701554707"
-              target="_blank"
-              style="color: #25d366; text-decoration: underline"
-              ><strong>WhatsApp us</strong></a
-            >
-          </span>
-        </div>
+       <footer id="contact" class="bg-light py-3 text-center fixed-bottom">
+      <div class="container">
+        <span class="footer-text">
+          <strong>Do you have any queries? Contact us via </strong></br>
+          <a href="mailto:abirha3896@gmail.com" class="mx-2" title="Email">
+            <i class="fa fa-envelope fa-lg" style="color: #d35400"></i>
+          </a>
+          <a href="https://wa.me/8801701554707" target="_blank" class="mx-2" title="WhatsApp">
+           <i class="fa fa-whatsapp fa-lg" style="color: #25d366"></i>
+          </a>
+        </span>
       </div>
     </footer>
   </body>
