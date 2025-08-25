@@ -4,424 +4,455 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <title>Add Customer Details - Maa Medicine Store</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Bootstrap 3 -->
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{% static 'pharma/css/bootstrap.min.css' %}" />
     <link
       rel="stylesheet"
       href="{% static 'pharma/css/bootstrap-theme.min.css' %}"
     />
     <link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-/>
+      rel="shortcut icon"
+      href="{% static 'pharma/css/images/favicon2.ico' %}"
+    />
 
-    <!-- Custom inline style -->
+    <!-- Font Awesome -->
+    <script
+      defer
+      src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- jQuery & Bootstrap JS -->
+    <script src="{% static 'pharma/js/jquery.js' %}"></script>
+    <script src="{% static 'pharma/js/bootstrap.min.js' %}"></script>
+
     <style>
       body {
-        padding-top: 70px; /* Avoid navbar overlap */
-        background-color: #f8f9fa;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: #f5f7fa;
+        margin: 0;
+        padding-left: 220px;
+        color: #2c3e50;
+        transition: padding-left 0.3s ease;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
       }
-      .navbar-inverse {
-        border-radius: 0;
+      body.nav-hidden {
+        padding-left: 0;
       }
-      .jumbotron.jumcust {
+
+      /* Vertical Navbar */
+      .navbar-vertical {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 220px;
+        height: 100%;
+        background-color: #34495e;
+        overflow-y: auto;
+        padding-top: 20px;
+        box-shadow: 2px 0 6px rgba(0, 0, 0, 0.15);
+        transition: transform 0.3s ease;
+        z-index: 1050;
+      }
+      .navbar-vertical a.nav-link {
+        display: flex;
+        align-items: center;
+        color: #ecf0f1;
+        padding: 12px 20px;
+        font-weight: 500;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+      .navbar-vertical a.nav-link:hover {
+        background-color: #1abc9c;
+        color: #fff;
+      }
+      .navbar-vertical .nav-icon {
+        margin-right: 10px;
+        font-size: 16px;
+        width: 20px;
+        text-align: center;
+      }
+      .navbar-vertical .submenu {
+        display: none;
+        flex-direction: column;
+        padding-left: 15px;
+        margin-top: 5px;
+      }
+      .navbar-vertical .submenu a {
+        padding: 8px 20px;
+        font-size: 14px;
+        color: #bdc3c7;
+      }
+      .navbar-vertical .submenu a:hover {
+        background-color: #16a085;
+        color: #fff;
+      }
+      .navbar-vertical .nav-item.active > .submenu {
+        display: flex;
+      }
+      .navbar-vertical .dropdown-toggle::after {
+        margin-left: auto;
+        transition: transform 0.3s;
+      }
+      .navbar-vertical .nav-item.active > .dropdown-toggle::after {
+        transform: rotate(90deg);
+      }
+      .navbar-right-vertical {
+        margin-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        padding-top: 15px;
+      }
+      .navbar-right-vertical a {
+        display: block;
+        color: #ecf0f1;
+        padding: 10px 20px;
+        transition: all 0.3s;
+      }
+      .navbar-right-vertical a:hover {
+        background-color: #1abc9c;
+        color: #fff;
+      }
+      body.nav-hidden .navbar-vertical {
+        transform: translateX(-220px);
+      }
+
+      /* Form Panel */
+      .container-form {
+        margin-top: 30px;
+        max-width: 800px;
+        flex: 1 0 auto;
+      }
+      .jumcust {
         background: #ffffff;
         border-radius: 12px;
         padding: 30px;
+        margin: 20px auto;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       }
-      .jumbotron h2 {
-        margin-bottom: 20px;
+      .jumcust h1 {
+        margin-bottom: 30px;
         font-weight: bold;
         color: #333;
-      }
-      table {
-        background: #fff;
-        border-radius: 8px;
-        overflow: hidden;
-      }
-      table th {
-        background: #343a40;
-        color: #fff;
         text-align: center;
       }
-      table td {
-        text-align: center;
-        vertical-align: middle;
-      }
-      .table-hover tbody tr:hover {
-        background-color: #f1f1f1;
-      }
-      .idlink a {
-        color: #007bff;
-        font-weight: bold;
-        text-decoration: none;
-      }
-      .idlink a:hover {
-        text-decoration: underline;
-      }
-      .alert {
-        border-radius: 8px;
-      }
-
-      /* Form spacing */
       .form-row {
         margin-bottom: 20px;
       }
+      .form-row input {
+        height: 42px;
+      }
 
       /* Footer */
-      #contact a {
+      footer {
+        background-color: #ecf0f1;
+        padding: 12px 0;
+        text-align: center;
+        width: 100%;
+        flex-shrink: 0;
+      }
+      footer a {
         color: #1abc9c;
         font-size: 22px;
         margin: 0 12px;
         display: inline-block;
         transition: transform 0.3s, color 0.3s, text-shadow 0.3s;
       }
-      #contact a:hover {
+      footer a:hover {
         color: #16a085;
         transform: scale(1.4) rotate(10deg);
         text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
         text-decoration: none;
       }
+
+      @media (max-width: 768px) {
+        body {
+          padding-left: 0;
+        }
+        .navbar-vertical {
+          width: 100%;
+          height: auto;
+          position: relative;
+          transform: translateX(-100%);
+          box-shadow: none;
+        }
+      }
     </style>
 
-    <!-- jQuery & Bootstrap 3 JS -->
-    <script src="{% static 'pharma/js/jquery.js' %}"></script>
-    <script src="{% static 'pharma/js/bootstrap.min.js' %}"></script>
+    <script>
+      $(document).ready(function () {
+        $(".dropdown-toggle").click(function (e) {
+          e.preventDefault();
+          $(this).parent().toggleClass("active");
+          $(this).siblings(".submenu").slideToggle(200);
+        });
 
-    <title>Add Customer Details</title>
+        let lastScroll = 0;
+        $(window).scroll(function () {
+          let currentScroll = $(this).scrollTop();
+          if (currentScroll > lastScroll && currentScroll > 50) {
+            $("body").addClass("nav-hidden");
+          } else {
+            $("body").removeClass("nav-hidden");
+          }
+          lastScroll = currentScroll;
+        });
+      });
+    </script>
   </head>
+
   <body>
-    {% if messages %} {% for message in messages %}
-    <div
-      class="alert alert-success alert-dismissible fade in container"
-      role="alert"
-      style="margin-top: 15px"
-    >
-      <button
-        type="button"
-        class="close"
-        data-dismiss="alert"
-        aria-label="Close"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
-      {{ message }}
-    </div>
-    {% endfor %} {% endif %}
-
     <!-- Navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a href="/pharma/" class="navbar-brand">
-            <span class="glyphicon glyphicon-home"></span> HOME
-          </a>
-          <button
-            type="button"
-            class="navbar-toggle"
-            data-toggle="collapse"
-            data-target="#thisnav"
+    <nav class="navbar-vertical">
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a href="/pharma/" class="nav-link"
+            ><span class="nav-icon glyphicon glyphicon-home"></span> HOME</a
           >
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-        </div>
-
-        <div class="collapse navbar-collapse" id="thisnav">
-          <ul class="nav navbar-nav">
-            <!-- Dealer Management -->
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                >Dealer Management <b class="caret"></b
-              ></a>
-              <ul class="dropdown-menu">
-                {% if user.is_authenticated and user.role == "admin" %}
-                <li><a href="/pharma/dealerform/">Add Dealer Details</a></li>
-                {% endif %}
-                <li><a href="/pharma/dealertable/">View Dealer Details</a></li>
-              </ul>
-            </li>
-
-            <!-- Medicine Management -->
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                >Medicine Management <b class="caret"></b
-              ></a>
-              <ul class="dropdown-menu">
-                <li><a href="/pharma/medform/">Add Medicine Details</a></li>
-                <li><a href="/pharma/medtable/">View Medicine Details</a></li>
-              </ul>
-            </li>
-
-            <!-- Employee Management -->
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                >Employee Management <b class="caret"></b
-              ></a>
-              <ul class="dropdown-menu">
-                {% if user.is_authenticated and user.role == "admin" %}
-                <li><a href="/pharma/empform/">Add Employee Details</a></li>
-                {% endif %}
-                <li><a href="/pharma/emptable/">View Employee Details</a></li>
-              </ul>
-            </li>
-
-            <!-- Customer Management -->
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                >Customer Management <b class="caret"></b
-              ></a>
-              <ul class="dropdown-menu">
-                <li><a href="/pharma/custform/">Add Customer Details</a></li>
-                <li><a href="/pharma/custtable/">View Customer Details</a></li>
-              </ul>
-            </li>
-
-            <!-- Purchase Information -->
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                >Purchase Information <b class="caret"></b
-              ></a>
-              <ul class="dropdown-menu">
-                <li><a href="/pharma/purchaseform/">New Purchase</a></li>
-                <li><a href="/pharma/purchasetable/">View All Purchases</a></li>
-              </ul>
-            </li>
-          </ul>
-
-          <!-- Right side -->
-          <ul class="nav navbar-nav navbar-right">
-            {% if user.is_authenticated %}
-            <li><a>Welcome, {{ user.username }}!</a></li>
-            <li><a href="{% url 'logout' %}">Logout</a></li>
-            {% else %}
-            <li><a href="{% url 'login' %}">Login</a></li>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link dropdown-toggle"
+            ><span class="nav-icon fas fa-handshake"></span> Dealer
+            Management</a
+          >
+          <div class="submenu">
+            {% if user.is_authenticated and user.role == "admin" %}
+            <a href="/pharma/dealerform/">Add Dealer Details</a>
             {% endif %}
-          </ul>
-        </div>
-      </div>
-    </nav>
-
-    <div class="container">
-      <div class="col-md-2"></div>
-      <div class="panel panel-default col-md-8 jumcust2">
-        <div class="panel-heading">
-          <h1>
-            {% if add %} Add Customer Details {% else %} Update Customer Details
+            <a href="/pharma/dealertable/">View Dealer Details</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link dropdown-toggle"
+            ><span class="nav-icon fas fa-pills"></span> Medicine Management</a
+          >
+          <div class="submenu">
+            <a href="/pharma/medform/">Add Medicine Details</a>
+            <a href="/pharma/medtable/">View Medicine Details</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link dropdown-toggle"
+            ><span class="nav-icon fas fa-user-tie"></span> Employee
+            Management</a
+          >
+          <div class="submenu">
+            {% if user.is_authenticated and user.role == "admin" %}
+            <a href="/pharma/empform/">Add Employee Details</a>
             {% endif %}
-          </h1>
-        </div>
-        <div class="panel-body">
-          {% if cust %}
-          <form action="/pharma/custformupdate/{{ cust.id }}/" method="post">
-            {% csrf_token %}
+            <a href="/pharma/emptable/">View Employee Details</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link dropdown-toggle"
+            ><span class="nav-icon fas fa-users"></span> Customer Management</a
+          >
+          <div class="submenu">
+            <a href="/pharma/custform/">Add Customer Details</a>
+            <a href="/pharma/custtable/">View Customer Details</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link dropdown-toggle"
+            ><span class="nav-icon fas fa-shopping-basket"></span> Purchase
+            Information</a
+          >
+          <div class="submenu">
+            <a href="/pharma/purchaseform/">New Purchase</a></br>
+            <a href="/pharma/purchasetable/">View All Purchases</a>
+          </div>
+        </li>
 
-            <div class="row form-row">
-              <div class="col-md-3">
-                <label for="firstName">Customer Name:</label>
-              </div>
-              <div class="col-md-4">
-                <input
-                  type="text"
-                  name="fname"
-                  class="form-control"
-                  id="firstName"
-                  placeholder="First Name"
-                  value="{{ cust.fname }}"
-                  required
-                />
-              </div>
-              <div class="col-md-4">
-                <input
-                  type="text"
-                  name="lname"
-                  class="form-control"
-                  id="lastName"
-                  placeholder="Last Name"
-                  value="{{ cust.lname }}"
-                  required
-                />
-              </div>
-            </div>
-
-            <div class="row form-row">
-              <div class="col-md-3">
-                <label for="address">Address:</label>
-              </div>
-              <div class="col-md-8">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="address"
-                  placeholder="Address"
-                  name="address"
-                  value="{{ cust.address }}"
-                />
-              </div>
-            </div>
-
-            <div class="row form-row">
-              <div class="col-md-3">
-                <label for="phn_no">Phone Number:</label>
-              </div>
-              <div class="col-md-4">
-                <input
-                  type="text"
-                  name="pno"
-                  class="form-control"
-                  id="phn_no"
-                  placeholder="Contact Number"
-                  value="{{ cust.phn_no }}"
-                  required
-                />
-              </div>
-            </div>
-
-            <div class="row form-row">
-              <div class="col-md-3">
-                <label for="email">Email:</label>
-              </div>
-              <div class="col-md-4">
-                <input
-                  type="text"
-                  name="email"
-                  class="form-control"
-                  id="email"
-                  placeholder="Email"
-                  value="{{ cust.email }}"
-                />
-              </div>
-            </div>
-
-            <div class="row form-row">
-              <div class="col-md-3"></div>
-              <div class="col-md-2">
-                <a href="/pharma/" class="btn btn-default btn-block">Cancel</a>
-              </div>
-              <div class="col-md-3">
-                <button type="submit" class="btn btn-primary btn-block">
-                  {% if add %} Add Record {% else %} Update Record {% endif %}
-                </button>
-              </div>
-              <div class="col-md-3">
-                <a
-                  href="/pharma/custformdelete/{{ cust.id }}/"
-                  class="btn btn-danger btn-block"
-                  >Delete Record</a
-                >
-              </div>
-            </div>
-          </form>
+        <div class="navbar-right-vertical">
+          {% if user.is_authenticated %}
+          <a>Welcome, {{ user.username }}!</a>
+          <a href="{% url 'logout' %}">Logout</a>
           {% else %}
-          <form action="/pharma/custforminsert/" method="post">
-            {% csrf_token %}
-
-            <div class="row form-row">
-              <div class="col-md-3">
-                <label for="firstName">Customer Name:</label>
-              </div>
-              <div class="col-md-4">
-                <input
-                  type="text"
-                  name="fname"
-                  class="form-control"
-                  id="firstName"
-                  placeholder="First Name"
-                  required
-                />
-              </div>
-              <div class="col-md-4">
-                <input
-                  type="text"
-                  name="lname"
-                  class="form-control"
-                  id="lastName"
-                  placeholder="Last Name"
-                  required
-                />
-              </div>
-            </div>
-
-            <div class="row form-row">
-              <div class="col-md-3">
-                <label for="address">Address:</label>
-              </div>
-              <div class="col-md-8">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="address"
-                  placeholder="Address"
-                  name="address"
-                />
-              </div>
-            </div>
-
-            <div class="row form-row">
-              <div class="col-md-3">
-                <label for="phn_no">Phone Number:</label>
-              </div>
-              <div class="col-md-4">
-                <input
-                  type="text"
-                  name="pno"
-                  class="form-control"
-                  id="phn_no"
-                  placeholder="Contact Number"
-                  required
-                />
-              </div>
-            </div>
-
-            <div class="row form-row">
-              <div class="col-md-3">
-                <label for="email">Email:</label>
-              </div>
-              <div class="col-md-4">
-                <input
-                  type="text"
-                  name="email"
-                  class="form-control"
-                  id="email"
-                  placeholder="Email"
-                />
-              </div>
-            </div>
-
-            <div class="row form-row">
-              <div class="col-md-3"></div>
-              <div class="col-md-2">
-                <a href="/pharma/" class="btn btn-default btn-block">Cancel</a>
-              </div>
-              <div class="col-md-3">
-                <button type="submit" class="btn btn-primary btn-block">
-                  {% if add %} Add Record {% else %} Update Record {% endif %}
-                </button>
-              </div>
-            </div>
-          </form>
+          <a href="{% url 'login' %}">Login</a>
           {% endif %}
         </div>
+      </ul>
+    </nav>
+
+    <!-- Form container -->
+    <div class="container container-form">
+      {% if messages %}{% for message in messages %}
+      <div class="alert alert-success alert-dismissible fade in">
+        {{ message }}
+      </div>
+      {% endfor %}{% endif %}
+
+      <div class="jumcust">
+        <h1>{% if add %}ADD Customer Details{% else %}UPDATE{% endif %}</h1>
+        {% if cust %}
+        <form action="/pharma/custformupdate/{{ cust.id }}/" method="post">
+          {% csrf_token %}
+          <div class="row form-row">
+            <div class="col-md-3"><label>Customer Name:</label></div>
+            <div class="col-md-4">
+              <input
+                type="text"
+                name="fname"
+                class="form-control"
+                value="{{ cust.fname }}"
+                required
+              />
+            </div>
+            <div class="col-md-4">
+              <input
+                type="text"
+                name="lname"
+                class="form-control"
+                value="{{ cust.lname }}"
+                required
+              />
+            </div>
+          </div>
+          <div class="row form-row">
+            <div class="col-md-3"><label>Address:</label></div>
+            <div class="col-md-8">
+              <input
+                type="text"
+                name="address"
+                class="form-control"
+                value="{{ cust.address }}"
+              />
+            </div>
+          </div>
+          <div class="row form-row">
+            <div class="col-md-3"><label>Phone Number:</label></div>
+            <div class="col-md-4">
+              <input
+                type="text"
+                name="pno"
+                class="form-control"
+                value="{{ cust.phn_no }}"
+                required
+              />
+            </div>
+          </div>
+          <div class="row form-row">
+            <div class="col-md-3"><label>Email:</label></div>
+            <div class="col-md-4">
+              <input
+                type="text"
+                name="email"
+                class="form-control"
+                value="{{ cust.email }}"
+              />
+            </div>
+          </div>
+          <div class="row form-row">
+            <div class="col-md-3"></div>
+            <div class="col-md-2">
+              <a href="/pharma/" class="btn btn-default btn-block">Cancel</a>
+            </div>
+            <div class="col-md-3">
+              <button type="submit" class="btn btn-primary btn-block">
+                Update Record
+              </button>
+            </div>
+            <div class="col-md-3">
+              <a
+                href="/pharma/custformdelete/{{ cust.id }}/"
+                class="btn btn-danger btn-block"
+                >Delete Record</a
+              >
+            </div>
+          </div>
+        </form>
+        {% else %}
+        <form action="/pharma/custforminsert/" method="post">
+          {% csrf_token %}
+          <div class="row form-row">
+            <div class="col-md-3"><label>Customer Name:</label></div>
+            <div class="col-md-4">
+              <input
+                type="text"
+                name="fname"
+                class="form-control"
+                placeholder="First Name"
+                required
+              />
+            </div>
+            <div class="col-md-4">
+              <input
+                type="text"
+                name="lname"
+                class="form-control"
+                placeholder="Last Name"
+                required
+              />
+            </div>
+          </div>
+          <div class="row form-row">
+            <div class="col-md-3"><label>Address:</label></div>
+            <div class="col-md-8">
+              <input
+                type="text"
+                name="address"
+                class="form-control"
+                placeholder="Address"
+              />
+            </div>
+          </div>
+          <div class="row form-row">
+            <div class="col-md-3"><label>Phone Number:</label></div>
+            <div class="col-md-4">
+              <input
+                type="text"
+                name="pno"
+                class="form-control"
+                placeholder="Contact Number"
+                required
+              />
+            </div>
+          </div>
+          <div class="row form-row">
+            <div class="col-md-3"><label>Email:</label></div>
+            <div class="col-md-4">
+              <input
+                type="text"
+                name="email"
+                class="form-control"
+                placeholder="Email"
+              />
+            </div>
+          </div>
+          <div class="row form-row">
+            <div class="col-md-3"></div>
+            <div class="col-md-2">
+              <a href="/pharma/" class="btn btn-default btn-block">Cancel</a>
+            </div>
+            <div class="col-md-3">
+              <button type="submit" class="btn btn-primary btn-block">
+                Add Record
+              </button>
+            </div>
+          </div>
+        </form>
+        {% endif %}
       </div>
     </div>
 
-    <!-- Updated Footer -->
-    <footer id="contact" class="bg-light py-3 text-center fixed-bottom">
-      <div class="container">
-        <span class="footer-text">
-          <strong>Do you have any queries? Contact us via </strong></br>
-          <a href="mailto:abirha3896@gmail.com" class="mx-2" title="Email">
-            <i class="fa fa-envelope fa-lg" style="color: #d35400"></i>
-          </a>
-          <a href="https://wa.me/8801701554707" target="_blank" class="mx-2" title="WhatsApp">
-           <i class="fa fa-whatsapp fa-lg" style="color: #25d366"></i>
-          </a>
-        </span>
-      </div>
+    <!-- Footer -->
+    <footer>
+      <span class="footer-text">
+        <strong>Do you have any queries? Contact us via </strong><br />
+        <a href="mailto:abirha3896@gmail.com" title="Email"
+          ><i class="fas fa-envelope fa-lg" style="color: #d35400"></i
+        ></a>
+        <a href="https://wa.me/8801701554707" target="_blank" title="WhatsApp"
+          ><i class="fab fa-whatsapp fa-lg" style="color: #25d366"></i
+        ></a>
+      </span>
+      <div class="small">&copy; All Rights Reserved.</div>
     </footer>
   </body>
 </html>
