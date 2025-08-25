@@ -68,22 +68,25 @@ def empform(request):
 
 
 def empforminsert(request):
-    try:
-        emp = Employee(
-            e_id=request.POST['eid'],
-            fname=request.POST['fname'],
-            lname=request.POST['lname'],
-            address=request.POST['address'],
-            phn_no=request.POST['pno'],
-            email=request.POST['email'],
-            sal=request.POST['sal']
-        )
-        emp.save()
-        messages.success(request, "✅ New employee added successfully.")
-    except IntegrityError:
-        return render(request, "pharma/new.html")
-    return redirect('emptable')
+    if request.method == "POST":
+        try:
+            emp = Employee(
+                e_id=request.POST.get('eid'),
+                fname=request.POST.get('fname'),
+                lname=request.POST.get('lname'),
+                address=request.POST.get('address'),
+                email=request.POST.get('email'),
+                sal=request.POST.get('sal'),
+                phn_no=request.POST.get('pno')
+            )
+            emp.save()
+            messages.success(request, "✅ New employee added successfully.")
+        except IntegrityError:
+            messages.error(request, "❌ Employee with this ID/Email/Phone already exists.")
+            return render(request, "pharma/empform.html", {"add": True})
+        return redirect('emptable')
 
+    return render(request, "pharma/empform.html", {"add": True})
 
 def empformupdate(request, foo):
     try:
