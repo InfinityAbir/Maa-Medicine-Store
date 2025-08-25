@@ -21,7 +21,7 @@ A Django-based web application for managing a medicine store. This project helps
 
 ### Medicine List Page
 
-![Medicine List Screenshot](screenshots/medicine-list.png)
+![Medicine List Screenshot](screenshots/homepage.png)
 
 
 ## Installation
