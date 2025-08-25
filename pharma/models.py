@@ -52,7 +52,7 @@ class Purchase(models.Model):
     pname = models.CharField(max_length=30)
     fname = models.CharField(max_length=30)
     lname = models.CharField(max_length=30)
-    phn_no = models.CharField(max_length=15, unique=True)
+    phn_no = models.CharField(max_length=15)
     price = models.BigIntegerField()
     qty = models.BigIntegerField()
     total = models.BigIntegerField()
