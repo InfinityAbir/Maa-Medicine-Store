@@ -3,8 +3,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-<html lang="en">
-  <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -15,83 +13,126 @@
       href="{% static 'pharma/css/bootstrap-theme.min.css' %}"
     />
 
-    <!-- Custom inline style since you don’t have style.css -->
+    <!-- Font Awesome -->
+    <script
+      defer
+      src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"
+      crossorigin="anonymous"
+    ></script>
+
     <style>
       body {
-        padding-top: 70px; /* Avoid navbar overlap */
+        padding-top: 70px;
         background-color: #f8f9fa;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        color: #2c3e50;
       }
-      .navbar-inverse {
-        border-radius: 0;
-      }
-      .jumbotron.jumcust {
-        background: #ffffff;
-        border-radius: 12px;
-        padding: 30px;
+
+      .alert {
+        border-radius: 10px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        margin-top: 15px;
+        transition: transform 0.3s;
       }
-      .jumbotron h2 {
-        margin-bottom: 20px;
-        font-weight: bold;
-        color: #333;
+      .alert:hover {
+        transform: translateY(-3px);
       }
+
+      .jumcust {
+        background: linear-gradient(135deg, #ffffff, #e3f2fd);
+        border-radius: 16px;
+        padding: 40px 25px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .jumcust:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+      }
+      .jumcust h2 {
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 25px;
+        letter-spacing: 1px;
+      }
+
       table {
         background: #fff;
-        border-radius: 8px;
+        border-radius: 12px;
         overflow: hidden;
+        width: 100%;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        margin-bottom: 20px;
       }
       table th {
-        background: #343a40;
+        background: #2980b9;
         color: #fff;
         text-align: center;
+        padding: 12px;
       }
       table td {
         text-align: center;
         vertical-align: middle;
+        padding: 10px;
+        color: #2c3e50;
       }
       .table-hover tbody tr:hover {
         background-color: #f1f1f1;
       }
+
       .idlink a {
-        color: #007bff;
+        color: #1abc9c;
         font-weight: bold;
         text-decoration: none;
+        transition: transform 0.3s, color 0.3s;
       }
       .idlink a:hover {
+        color: #16a085;
+        transform: scale(1.1);
         text-decoration: underline;
       }
-      .alert {
-        border-radius: 8px;
-      }
-      /* Footer */
-      footer {
-        background: #2c3e50;
-        color: #ecf0f1;
-        padding: 25px 15px;
-        margin-top: 40px;
-      }
-      footer a {
+
+      #contact a {
         color: #1abc9c;
-        transition: 0.3s;
+        font-size: 22px;
+        margin: 0 12px;
+        display: inline-block;
+        transition: transform 0.3s, color 0.3s, text-shadow 0.3s;
       }
-      footer a:hover {
+      #contact a:hover {
         color: #16a085;
+        transform: scale(1.4) rotate(10deg);
+        text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
         text-decoration: none;
+      }
+
+      .martop7 {
+        margin-top: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .jumcust h2 {
+          font-size: 24px;
+        }
+        table th,
+        table td {
+          font-size: 14px;
+        }
       }
     </style>
 
-    <!-- jQuery & Bootstrap 3 JS -->
     <script src="{% static 'pharma/js/jquery.js' %}"></script>
     <script src="{% static 'pharma/js/bootstrap.min.js' %}"></script>
 
     <title>All Employee Details</title>
   </head>
+
   <body>
+    <!-- Messages -->
     {% if messages %} {% for message in messages %}
     <div
       class="alert alert-success alert-dismissible fade in container"
       role="alert"
-      style="margin-top: 15px"
     >
       <button
         type="button"
@@ -105,13 +146,13 @@
     </div>
     {% endfor %} {% endif %}
 
-    <!-- Navbar -->
+    <!-- Navbar (unchanged) -->
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header">
-          <a href="/pharma/" class="navbar-brand">
-            <span class="glyphicon glyphicon-home"></span> HOME
-          </a>
+          <a href="/pharma/" class="navbar-brand"
+            ><span class="glyphicon glyphicon-home"></span> HOME</a
+          >
           <button
             type="button"
             class="navbar-toggle"
@@ -123,10 +164,8 @@
             <span class="icon-bar"></span>
           </button>
         </div>
-
         <div class="collapse navbar-collapse" id="thisnav">
           <ul class="nav navbar-nav">
-            <!-- Dealer Management (Admins only) -->
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                 >Dealer Management <b class="caret"></b
@@ -138,8 +177,6 @@
                 <li><a href="/pharma/dealertable/">View Dealer Details</a></li>
               </ul>
             </li>
-
-            <!-- Medicine Management -->
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                 >Medicine Management <b class="caret"></b
@@ -149,8 +186,6 @@
                 <li><a href="/pharma/medtable/">View Medicine Details</a></li>
               </ul>
             </li>
-
-            <!-- Employee Management -->
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                 >Employee Management <b class="caret"></b
@@ -162,8 +197,6 @@
                 <li><a href="/pharma/emptable/">View Employee Details</a></li>
               </ul>
             </li>
-
-            <!-- Customer Management -->
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                 >Customer Management <b class="caret"></b
@@ -173,8 +206,6 @@
                 <li><a href="/pharma/custtable/">View Customer Details</a></li>
               </ul>
             </li>
-
-            <!-- Purchase Information -->
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                 >Purchase Information <b class="caret"></b
@@ -186,7 +217,6 @@
             </li>
           </ul>
 
-          <!-- Right side -->
           <ul class="nav navbar-nav navbar-right">
             {% if user.is_authenticated %}
             <li><a>Welcome, {{ user.username }}!</a></li>
@@ -198,59 +228,74 @@
         </div>
       </div>
     </nav>
-    <div class="container-fluid martop7">
+
+    <!-- Main Content -->
+    <div class="container martop7">
       <div class="jumbotron jumcust">
         <h2>Employee Details</h2>
         <div class="row">
-          <div class="col-md-1"></div>
-          <table
-            border="1"
-            class="table table-responsive table-hover col-md-10"
-          >
-            <tr>
-              <th>Employee ID</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Address</th>
-              <th>Phone Number</th>
-              <th>Email</th>
-              <th>Salary</th>
-            </tr>
-            {% for foo in emp %}
-                    <tr>
-                        <td class="idlink">
-                        {% if user.is_authenticated and user.role == "admin" %}
-                          <a href="{% url 'empformview' foo.id %}">{{ foo.id }}</a>
-                        {% else %}
-                          <a href="javascript:void(0);" onclick="alert('This action is allowed only for admin');">{{ foo.id }}</a>
-                        {% endif %}
-                        </td>
-                        <td>{{ foo.fname }}</td>
-                        <td>{{ foo.lname }}</td>
-                        <td>{{ foo.address }}</td>
-                        <td>{{ foo.phn_no }}</td>
-                        <td>{{ foo.email }}</td>
-                        <td>{{ foo.sal }}</td>
-                    </tr>
+          <div class="col-md-12">
+            <table class="table table-hover table-bordered table-responsive">
+              <thead>
+                <tr>
+                  <th>Employee ID</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Address</th>
+                  <th>Phone Number</th>
+                  <th>Email</th>
+                  <th>Salary</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for foo in emp %}
+                <tr>
+                  <td class="idlink">
+                    {% if user.is_authenticated and user.role == "admin" %}
+                    <a href="{% url 'empformview' foo.id %}">{{ foo.id }}</a>
+                    {% else %}
+                    <a
+                      href="javascript:void(0);"
+                      onclick="alert('This action is allowed only for admin');"
+                      >{{ foo.id }}</a
+                    >
+                    {% endif %}
+                  </td>
+                  <td>{{ foo.fname }}</td>
+                  <td>{{ foo.lname }}</td>
+                  <td>{{ foo.address }}</td>
+                  <td>{{ foo.phn_no }}</td>
+                  <td>{{ foo.email }}</td>
+                  <td>{{ foo.sal }}</td>
+                </tr>
                 {% endfor %}
+              </tbody>
             </table>
-        </div>
-        <footer><h3>Click on an Employee ID to Update or Delete the record.</h3></footer>
-    </div>
-    </div>
-    <footer id="contact" class="container-fluid text-center">
-      <div class="row">
-          <div class="left-footer col-lg-6">
-            <span class="footer-text">
-              <strong>Do you have any queries? Contact us via </strong>
-              <a href="mailto:abirha3896@gmail.com" style="color: #0057b5; text-decoration: underline;"><strong>Email</strong></a>, 
-              or 
-              <a href="https://wa.me/8801701554707" target="_blank" style="color: #25D366; text-decoration: underline;">
-                <strong>WhatsApp us</strong>
-              </a>.
-            </span>
           </div>
         </div>
+        <footer>
+          <h4>Click on an Employee ID to Update or Delete the record.</h4>
+        </footer>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-light py-3 text-center">
+      <div class="container">
+        <span class="footer-text">
+          <strong>Do you have any queries? Contact us via </strong><br />
+          <a href="mailto:abirha3896@gmail.com" class="mx-2" title="Email">
+            <i class="fas fa-envelope fa-lg" style="color: #d35400"></i>
+          </a>
+          <a
+            href="https://wa.me/8801701554707"
+            target="_blank"
+            class="mx-2"
+            title="WhatsApp"
+          >
+            <i class="fab fa-whatsapp fa-lg" style="color: #25d366"></i>
+          </a>
+        </span>
       </div>
     </footer>
   </body>
