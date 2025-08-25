@@ -2,343 +2,278 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<head>
+  <meta charset="utf-8" />
+  <title>{% if add %}Add{% else %}Update{% endif %} Medicine - Maa Medicine Store</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Bootstrap 3 -->
-    <link rel="stylesheet" href="{% static 'pharma/css/bootstrap.min.css' %}" />
-    <link
-      rel="stylesheet"
-      href="{% static 'pharma/css/bootstrap-theme.min.css' %}"
-    />
-     <link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-/>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="{% static 'pharma/css/bootstrap.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'pharma/css/bootstrap-theme.min.css' %}" />
 
-    <!-- Custom inline style -->
-    <style>
-      body {
-        padding-top: 70px;
-        background-color: #f8f9fa;
-      }
-      .navbar-inverse {
-        border-radius: 0;
-      }
-      .panel-heading h1 {
-        font-size: 22px;
-        font-weight: bold;
-        margin: 0;
-      }
-      .form-group {
-        margin-bottom: 20px; /* space between fields */
-      }
-      label {
-        margin-top: 6px; /* vertically align labels */
-        font-weight: 600;
-      }
-      .form-control {
-        box-shadow: none;
-        border-radius: 6px;
-      }
-      .btn {
-        border-radius: 6px;
-        min-width: 120px;
-      }
-      table {
-        background: #fff;
-        border-radius: 8px;
-        overflow: hidden;
-      }
-      table th {
-        background: #343a40;
-        color: #fff;
-        text-align: center;
-      }
-      table td {
-        text-align: center;
-        vertical-align: middle;
-      }
-      .idlink a {
-        color: #007bff;
-        font-weight: bold;
-        text-decoration: none;
-      }
-      .idlink a:hover {
-        text-decoration: underline;
-      }
-   /* Footer */
-      #contact a {
-        color: #1abc9c;
-        font-size: 22px;
-        margin: 0 12px;
-        display: inline-block;
-        transition: transform 0.3s, color 0.3s, text-shadow 0.3s;
-      }
-      #contact a:hover {
-        color: #16a085;
-        transform: scale(1.4) rotate(10deg);
-        text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
-        text-decoration: none;
-      }
-    </style>
+  <!-- Font Awesome 5 -->
+ <script
+      defer
+      src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"
+      crossorigin="anonymous"
+    ></script>
 
-    <!-- jQuery & Bootstrap 3 JS -->
-    <script src="{% static 'pharma/js/jquery.js' %}"></script>
-    <script src="{% static 'pharma/js/bootstrap.min.js' %}"></script>
+  <!-- jQuery & Bootstrap JS -->
+  <script src="{% static 'pharma/js/jquery.js' %}"></script>
+  <script src="{% static 'pharma/js/bootstrap.min.js' %}"></script>
 
-    <title>Add Medicine Details</title>
-  </head>
-  <body>
-    {% if messages %} 
-      {% for message in messages %}
-      <div class="alert alert-success alert-dismissible fade in container" role="alert" style="margin-top: 15px">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        {{ message }}
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f7fa;
+      margin: 0;
+      padding-left: 220px;
+      transition: padding-left 0.3s ease;
+      color: #2c3e50;
+    }
+    body.nav-hidden { padding-left: 0; }
+
+    /* Vertical Navbar */
+    .navbar-vertical {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 220px;
+      height: 100%;
+      background-color: #34495e;
+      overflow-y: auto;
+      padding-top: 20px;
+      box-shadow: 2px 0 6px rgba(0,0,0,0.15);
+      z-index: 1050;
+    }
+    .navbar-vertical ul.nav { list-style: none; padding: 0; margin: 0; }
+    .navbar-vertical a.nav-link {
+      display: flex;
+      align-items: center;
+      color: #ecf0f1;
+      padding: 12px 20px;
+      font-weight: 500;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+    .navbar-vertical a.nav-link:hover { background-color: #1abc9c; color: #fff; }
+    .navbar-vertical .nav-icon { margin-right: 10px; font-size: 16px; width: 20px; text-align: center; }
+    .navbar-vertical .submenu { display: none; flex-direction: column; padding-left: 15px; margin-top: 5px; }
+    .navbar-vertical .submenu a { padding: 8px 20px; font-size: 14px; color: #bdc3c7; }
+    .navbar-vertical .submenu a:hover { background-color: #16a085; color: #fff; }
+    .navbar-vertical .nav-item.active > .submenu { display: flex; }
+    .navbar-vertical .dropdown-toggle::after { margin-left: auto; transition: transform 0.3s; }
+    .navbar-vertical .nav-item.active > .dropdown-toggle::after { transform: rotate(90deg); }
+    .navbar-right-vertical { margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px; }
+    .navbar-right-vertical a { display: block; color: #ecf0f1; padding: 10px 20px; transition: all 0.3s; }
+    .navbar-right-vertical a:hover { background-color: #1abc9c; color: #fff; }
+
+    /* Form Panel */
+    .jumcust {
+      background: #fff;
+      border-radius: 12px;
+      padding: 30px;
+      margin: 20px auto;
+      max-width: 900px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .jumcust h2 { margin-bottom: 25px; text-align: center; font-weight: bold; }
+    .form-group { margin-bottom: 20px; }
+    label { font-weight: 600; }
+    .form-control { border-radius: 6px; box-shadow: none; }
+    .btn { border-radius: 6px; min-width: 120px; }
+
+    /* Footer */
+    footer {
+      background-color: #ecf0f1;
+      padding: 12px 0;
+      text-align: center;
+      position: fixed;
+      bottom: 0;
+      width: calc(100% - 220px);
+      left: 220px;
+    }
+    footer a {
+      color: #1abc9c;
+      font-size: 22px;
+      margin: 0 12px;
+      display: inline-block;
+      transition: transform 0.3s, color 0.3s, text-shadow 0.3s;
+    }
+    footer a:hover {
+      color: #16a085;
+      transform: scale(1.4) rotate(10deg);
+      text-shadow: 1px 1px 5px rgba(0,0,0,0.3);
+      text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+      body { padding-left: 0; }
+      .navbar-vertical { width: 100%; height: auto; position: relative; transform: translateX(-100%); box-shadow: none; }
+      footer { width: 100%; left: 0; }
+    }
+  </style>
+
+  <script>
+    $(document).ready(function () {
+      $('.dropdown-toggle').click(function (e) {
+        e.preventDefault();
+        $(this).parent().toggleClass('active');
+        $(this).siblings('.submenu').slideToggle(200);
+      });
+
+      let lastScroll = 0;
+      $(window).scroll(function () {
+        let currentScroll = $(this).scrollTop();
+        if (currentScroll > lastScroll && currentScroll > 50) { $('body').addClass('nav-hidden'); }
+        else { $('body').removeClass('nav-hidden'); }
+        lastScroll = currentScroll;
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <!-- Vertical Navbar -->
+  <nav class="navbar-vertical">
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a href="/pharma/" class="nav-link"><i class="fas fa-home nav-icon"></i> HOME</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link dropdown-toggle"><i class="fas fa-handshake nav-icon"></i> Dealer Management</a>
+        <div class="submenu">
+          {% if user.is_authenticated and user.role == "admin" %}
+          <a href="/pharma/dealerform/">Add Dealer Details</a>
+          {% endif %}
+          <a href="/pharma/dealertable/">View Dealer Details</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link dropdown-toggle"><i class="fas fa-pills nav-icon"></i> Medicine Management</a>
+        <div class="submenu">
+          <a href="/pharma/medform/">Add Medicine Details</a>
+          <a href="/pharma/medtable/">View Medicine Details</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link dropdown-toggle"><i class="fas fa-user-tie nav-icon"></i> Employee Management</a>
+        <div class="submenu">
+          {% if user.is_authenticated and user.role == "admin" %}
+          <a href="/pharma/empform/">Add Employee Details</a>
+          {% endif %}
+          <a href="/pharma/emptable/">View Employee Details</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link dropdown-toggle"><i class="fas fa-users nav-icon"></i> Customer Management</a>
+        <div class="submenu">
+          <a href="/pharma/custform/">Add Customer Details</a>
+          <a href="/pharma/custtable/">View Customer Details</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link dropdown-toggle"><i class="fas fa-shopping-basket nav-icon"></i> Purchase Information</a>
+        <div class="submenu">
+          <a href="/pharma/purchaseform/">New Purchase</a></br>
+          <a href="/pharma/purchasetable/">View All Purchases</a>
+        </div>
+      </li>
+      <div class="navbar-right-vertical">
+        {% if user.is_authenticated %}
+        <a>Welcome, {{ user.username }}!</a>
+        <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        {% endif %}
       </div>
-      {% endfor %} 
+    </ul>
+  </nav>
+
+  <!-- Medicine Form -->
+  <div class="container">
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-success alert-dismissible fade in" role="alert">
+          <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+          {{ message }}
+        </div>
+      {% endfor %}
     {% endif %}
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a href="/pharma/" class="navbar-brand">
-            <span class="glyphicon glyphicon-home"></span> HOME
-          </a>
-          <button
-            type="button"
-            class="navbar-toggle"
-            data-toggle="collapse"
-            data-target="#thisnav"
-          >
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+    <div class="jumcust">
+      <h2>{% if add %}Add Medicine{% else %}Update Medicine{% endif %}</h2>
+      <form action="{% if med %}/pharma/medformupdate/{{ med.id }}/{% else %}/pharma/medforminsert/{% endif %}" method="post">
+        {% csrf_token %}
+        <div class="form-group row">
+          <label for="m_id" class="col-md-3 control-label">Medicine Code:</label>
+          <div class="col-md-4">
+            <input type="text" class="form-control" name="mid" id="m_id" value="{% if med %}{{ med.m_id }}{% endif %}" placeholder="Code" />
+          </div>
         </div>
 
-        <div class="collapse navbar-collapse" id="thisnav">
-          <ul class="nav navbar-nav">
-            <!-- Dealer Management (Admins only) -->
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                Dealer Management <b class="caret"></b>
-              </a>
-              <ul class="dropdown-menu">
-                {% if user.is_authenticated and user.role == "admin" %}
-                <li><a href="/pharma/dealerform/">Add Dealer Details</a></li>
-                {% endif %}
-                <li><a href="/pharma/dealertable/">View Dealer Details</a></li>
-              </ul>
-            </li>
+        <div class="form-group row">
+          <label for="mname" class="col-md-3 control-label">Medicine Name:</label>
+          <div class="col-md-4">
+            <input type="text" class="form-control" name="mname" id="mname" value="{% if med %}{{ med.mname }}{% endif %}" placeholder="Medicine Name" required />
+          </div>
+        </div>
 
-            <!-- Medicine Management -->
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                Medicine Management <b class="caret"></b>
-              </a>
-              <ul class="dropdown-menu">
-                <li><a href="/pharma/medform/">Add Medicine Details</a></li>
-                <li><a href="/pharma/medtable/">View Medicine Details</a></li>
-              </ul>
-            </li>
+        <div class="form-group row">
+          <label for="dname" class="col-md-3 control-label">Dealer Name:</label>
+          <div class="col-md-6">
+            <select name="dname" class="form-control" id="dname" required>
+              <option value="">-- Select Dealer --</option>
+              {% for dealer in dealers %}
+              <option value="{{ dealer.dname }}" {% if med and med.dname == dealer.dname %}selected{% endif %}>{{ dealer.dname }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
 
-            <!-- Employee Management -->
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                Employee Management <b class="caret"></b>
-              </a>
-              <ul class="dropdown-menu">
-                {% if user.is_authenticated and user.role == "admin" %}
-                <li><a href="/pharma/empform/">Add Employee Details</a></li>
-                {% endif %}
-                <li><a href="/pharma/emptable/">View Employee Details</a></li>
-              </ul>
-            </li>
+        <div class="form-group row">
+          <label for="price" class="col-md-3 control-label">Price:</label>
+          <div class="col-md-3">
+            <input type="text" class="form-control" name="price" id="price" value="{% if med %}{{ med.price }}{% endif %}" placeholder="Price" required />
+          </div>
+        </div>
 
-            <!-- Customer Management -->
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                Customer Management <b class="caret"></b>
-              </a>
-              <ul class="dropdown-menu">
-                <li><a href="/pharma/custform/">Add Customer Details</a></li>
-                <li><a href="/pharma/custtable/">View Customer Details</a></li>
-              </ul>
-            </li>
+        <div class="form-group row">
+          <label for="stock" class="col-md-3 control-label">Stock:</label>
+          <div class="col-md-3">
+            <input type="text" class="form-control" name="stock" id="stock" value="{% if med %}{{ med.stock }}{% endif %}" placeholder="Stock" />
+          </div>
+        </div>
 
-            <!-- Purchase Information -->
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                Purchase Information <b class="caret"></b>
-              </a>
-              <ul class="dropdown-menu">
-                <li><a href="/pharma/purchaseform/">New Purchase</a></li>
-                <li><a href="/pharma/purchasetable/">View All Purchases</a></li>
-              </ul>
-            </li>
-          </ul>
+        <div class="form-group row">
+          <label for="desc" class="col-md-3 control-label">Description:</label>
+          <div class="col-md-6">
+            <input type="text" class="form-control" name="desc" id="desc" value="{% if med %}{{ med.desc }}{% endif %}" placeholder="Description" />
+          </div>
+        </div>
 
-          <!-- Right side -->
-          <ul class="nav navbar-nav navbar-right">
-            {% if user.is_authenticated %}
-            <li><a>Welcome, {{ user.username }}!</a></li>
-            <li><a href="{% url 'logout' %}">Logout</a></li>
-            {% else %}
-            <li><a href="{% url 'login' %}">Login</a></li>
+        <div class="form-group row">
+          <div class="col-md-3"></div>
+          <div class="col-md-9">
+            <button type="submit" class="btn btn-primary">{% if med %}Update Record{% else %}Add Record{% endif %}</button>
+            {% if med %}
+            <a href="/pharma/medformdelete/{{ med.id }}/" class="btn btn-danger">Delete Record</a>
             {% endif %}
-          </ul>
+            <a href="/pharma/" class="btn btn-default">Cancel</a>
+          </div>
         </div>
-      </div>
-    </nav>
-
-    <div class="container">
-      <div class="col-md-2"></div>
-      <div class="panel panel-default col-md-8">
-        <div class="panel-heading">
-          <h1>{% if add %}Add Medicine Details{% else %}Update Medicine Details{% endif %}</h1>
-        </div>
-        <div class="panel-body">
-          {% if med %}
-          <!-- Update Medicine Form -->
-          <form action="/pharma/medformupdate/{{ med.id }}/" method="post">
-            {% csrf_token %}
-            <div class="form-group row">
-              <label for="m_id" class="col-md-3 control-label">Medicine Code:</label>
-              <div class="col-md-4">
-                <input type="text" class="form-control" name="mid" id="m_id" value="{{ med.m_id }}" />
-              </div>
-            </div>
-
-            <div class="form-group row">
-              <label for="mname" class="col-md-3 control-label">Medicine Name:</label>
-              <div class="col-md-4">
-                <input type="text" class="form-control" name="mname" id="mname" value="{{ med.mname }}" required />
-              </div>
-            </div>
-
-            <div class="form-group row">
-              <label for="dname" class="col-md-3 control-label">Dealer Name:</label>
-              <div class="col-md-6">
-                <select name="dname" class="form-control" id="dname" required>
-                  <option value="">-- Select Dealer --</option>
-                  {% for dealer in dealers %}
-                  <option value="{{ dealer.dname }}" {% if med.dname == dealer.dname %}selected{% endif %}>{{ dealer.dname }}</option>
-                  {% endfor %}
-                </select>
-              </div>
-            </div>
-
-            <div class="form-group row">
-              <label for="price" class="col-md-3 control-label">Price:</label>
-              <div class="col-md-3">
-                <input type="text" class="form-control" name="price" id="price" value="{{ med.price }}" required />
-              </div>
-            </div>
-
-            <div class="form-group row">
-              <label for="stock" class="col-md-3 control-label">Stock:</label>
-              <div class="col-md-3">
-                <input type="text" class="form-control" name="stock" id="stock" value="{{ med.stock }}" />
-              </div>
-            </div>
-
-            <div class="form-group row">
-              <label for="desc" class="col-md-3 control-label">Description:</label>
-              <div class="col-md-6">
-                <input type="text" class="form-control" name="desc" id="desc" value="{{ med.desc }}" />
-              </div>
-            </div>
-
-            <div class="form-group row">
-              <div class="col-md-3"></div>
-              <div class="col-md-9">
-                <button type="submit" class="btn btn-primary">Update Record</button>
-                <a href="/pharma/medformdelete/{{ med.id }}/" class="btn btn-danger">Delete Record</a>
-                <a href="/pharma/" class="btn btn-default">Cancel</a>
-              </div>
-            </div>
-          </form>
-          {% else %}
-          <!-- Add Medicine Form -->
-          <form action="/pharma/medforminsert/" method="post">
-            {% csrf_token %}
-            <div class="form-group row">
-              <label for="m_id" class="col-md-3 control-label">Medicine Code:</label>
-              <div class="col-md-4">
-                <input type="text" class="form-control" name="mid" id="m_id" placeholder="Code" />
-              </div>
-            </div>
-
-            <div class="form-group row">
-              <label for="mname" class="col-md-3 control-label">Medicine Name:</label>
-              <div class="col-md-4">
-                <input type="text" class="form-control" name="mname" id="mname" placeholder="Medicine Name" required />
-              </div>
-            </div>
-
-            <div class="form-group row">
-              <label for="dname" class="col-md-3 control-label">Dealer Name:</label>
-              <div class="col-md-6">
-                <select name="dname" class="form-control" id="dname" required>
-                  <option value="">-- Select Dealer --</option>
-                  {% for dealer in dealers %}
-                  <option value="{{ dealer.dname }}">{{ dealer.dname }}</option>
-                  {% endfor %}
-                </select>
-              </div>
-            </div>
-
-            <div class="form-group row">
-              <label for="price" class="col-md-3 control-label">Price:</label>
-              <div class="col-md-3">
-                <input type="text" class="form-control" name="price" id="price" placeholder="Price" required />
-              </div>
-            </div>
-
-            <div class="form-group row">
-              <label for="stock" class="col-md-3 control-label">Stock:</label>
-              <div class="col-md-3">
-                <input type="text" class="form-control" name="stock" id="stock" placeholder="Stock" />
-              </div>
-            </div>
-
-            <div class="form-group row">
-              <label for="desc" class="col-md-3 control-label">Description:</label>
-              <div class="col-md-6">
-                <input type="text" class="form-control" name="desc" id="desc" placeholder="Description" />
-              </div>
-            </div>
-
-            <div class="form-group row">
-              <div class="col-md-3"></div>
-              <div class="col-md-9">
-                <button type="submit" class="btn btn-primary">Add Record</button>
-                <a href="/pharma/" class="btn btn-default">Cancel</a>
-              </div>
-            </div>
-          </form>
-          {% endif %}
-        </div>
-      </div>
+      </form>
     </div>
+  </div>
 
-      <footer id="contact" class="bg-light py-3 text-center fixed-bottom">
-      <div class="container">
-        <span class="footer-text">
-          <strong>Do you have any queries? Contact us via </strong></br>
-          <a href="mailto:abirha3896@gmail.com" class="mx-2" title="Email">
-            <i class="fa fa-envelope fa-lg" style="color: #d35400"></i>
-          </a>
-          <a href="https://wa.me/8801701554707" target="_blank" class="mx-2" title="WhatsApp">
-           <i class="fa fa-whatsapp fa-lg" style="color: #25d366"></i>
-          </a>
-        </span>
-      </div>
-    </footer>
-  </body>
+  <!-- Footer -->
+  <footer>
+    <span class="footer-text">
+      <strong>Do you have any queries? Contact us via </strong><br/>
+      <a href="mailto:abirha3896@gmail.com" title="Email"><i class="fas fa-envelope fa-lg" style="color: #d35400"></i></a>
+      <a href="https://wa.me/8801701554707" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp fa-lg" style="color: #25d366"></i></a>
+    </span>
+  </footer>
+</body>
 </html>
