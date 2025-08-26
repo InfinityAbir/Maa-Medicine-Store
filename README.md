@@ -41,3 +41,10 @@ A Django-based web application for managing a medicine store. This project helps
 6. **Run the development server:**
    python manage.py runserver
 7. **Open your browser and go to** http://127.0.0.1:8000/
+---
+
+### username: abir
+### password: 123
+Otherwise create:
+   ```bash
+     python manage.py createsuperuser
