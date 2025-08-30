@@ -12,9 +12,7 @@ def register_view(request):
     if request.method == "POST":
         form = RegisterForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.role = "staff"   # default role
-            user.save()
+            form.save()  # handled inside the form
             messages.success(request, "✅ Account created successfully! Please log in.")
             return redirect('login')
     else:
@@ -26,10 +24,8 @@ def register_view(request):
 # ---------------- Login View ----------------
 def login_view(request):
     if request.user.is_authenticated:
-        if request.user.role == "admin":
-            return redirect("index")   # go to Django admin
-        else:
-            return redirect('index')     # go to home
+        # ✅ Both admin & staff go to index (custom dashboard)
+        return redirect("index")
 
     if request.method == "POST":
         username = request.POST['username']
@@ -41,10 +37,8 @@ def login_view(request):
             login(request, user)
             messages.success(request, f"✅ Welcome, {user.username}!")
 
-            if user.role == "admin":
-                return redirect("index")   # ✅ redirect to admin panel
-            else:
-                return redirect('index')     # ✅ redirect to home
+            # ✅ Both roles redirected to your custom dashboard
+            return redirect("index")
         else:
             messages.error(request, "❌ Invalid username or password.")
             return render(request, 'accounts/login.html')
