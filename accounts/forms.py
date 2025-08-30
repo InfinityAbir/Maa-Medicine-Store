@@ -9,9 +9,19 @@ class RegisterForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ("username", "email", "password1", "password2")  # ❌ no role here
+        fields = ("username", "email", "password1", "password2")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs.update({"class": "form-control"})
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        # ✅ Always enforce staff role for registered users
+        user.role = "staff"
+        user.is_staff = False       # ❌ cannot log in to Django admin
+        user.is_superuser = False   # ❌ definitely not a superuser
+        if commit:
+            user.save()
+        return user
